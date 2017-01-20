@@ -22,15 +22,37 @@
   }
 /** @section Анекдоты @todo */
   class Anekdot {
-    public static function all() {}
-    public static function add() {}
-    public static function get($id) {}
-    public static function ver($id) {}
-    public static function upd($id, $version) {}
-    public static function num($id, $num) {}
-    public static function tag($id, $tag) {}
-  }
+    public static function all() {
+      return Api::select('id, number, name', 'anekdot', ['hide' => 0]);
+    }
+    public static function add($caption, $number, $text, $name = '') {
+      $anekdot = Api::insert('anekdot', ['caption' => $caption, 'number' => $number]);
+      $version = Anekdot::upd($anekdot['id'], $text, '');
+      return Anekdot::all();
+    }
+    public static function get($id) {
+      $anekdot = Api::select('*', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id]);
+      $anekdot['version'] = Anekdot::versions($anekdot['id']);
+      $anekdot['tag']     = Anekdot::tags    ($anekdot['id']);
+      return $anekdot;
+    }
+    public static function versions($anekdot) {
+      return Api::select('name, text', 'version', ['anekdot' => $anekdot, 'hide' => 0]);
+    }
+    public static function tags($anekdot) {
+      return Api::select('tag.id, tag.name', 'link, tag', ['link.anekdot' => $anekdot, 'link.hide' => 0, 'tag.hide' => 0], ['link.tag' => 'tag.id']);
+    }
+    public static function upd($anekdot, $version, $name) {
+      Api::insert('version', ['anekdot' => $anekdot, 'version' => $version, 'name' => $name]);
+      return Anekdot::versions($anekdot);
+    }
+    public static function num($anekdot, $number) {
+      
+    }
+    public static function tag($anekdot, $tag) {
 
+    }
+  }
 
 /** @section Обработка запросов */
   $response = array();
