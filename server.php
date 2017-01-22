@@ -31,7 +31,7 @@
       return Anekdot::all();
     }
     public static function get($id) {
-      $anekdot = Api::select('*', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id]);
+      $anekdot = Api::select('id, number, name', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id]);
       $anekdot['version'] = Anekdot::versions($anekdot['id']);
       $anekdot['tag']     = Anekdot::tags    ($anekdot['id']);
       return $anekdot;
@@ -47,7 +47,9 @@
       return Anekdot::versions($anekdot);
     }
     public static function num($anekdot, $number) {
-      
+      // @todo unique
+      Api::update('anekdot', ['number' => $number], $anekdot);
+      return Anekdot::get($anekdot);
     }
     public static function tag($anekdot, $tag) {
 
@@ -59,9 +61,13 @@
   $method   = strtolower(_::str('method'));
   switch ($method) {
   /** @subsection Обработка запросов к Api */
-    case     'tag.all': $response = Tag::all();               break; // Список всех тегов
-    case     'tag.add': $response = Tag::add(_::str('name')); break; // Добавление нового тега
-    // case 'anekdot.all': $response = Anekdot.all(); break; // и т. д.
+    case     'tag.all': $response = Tag::all();                 break; // Список всех тегов
+    case     'tag.add': $response = Tag::add(_::str('name'));   break; // Добавление нового тега
+    case 'anekdot.all': $response = Anekdot::all();             break; // Список анекдотов
+    case 'anekdot.get': $response = Anekdot::get(_::int('id')); break; // Информация об анекдоте
+    case 'anekdot.upd': $response = Anekdot::upd(_::int('anekdot'), _::str('version'), _::str('name')); break;                // Добавление версии анекдота
+    case 'anekdot.num': $response = Anekdot::num(_::int('anekdot'), _::int('number')); break;                                 // Установка номера анекдота
+    case 'anekdot.add': $response = Anekdot::add(_::str('caption'), _::int('number'), _::str('text'), _::str('name')); break; // Добавление анекдота
     // @todo
 
   /** @subsection Обработка ошибочного запроса */
