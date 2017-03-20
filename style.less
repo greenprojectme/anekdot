@@ -15,9 +15,15 @@
 header { width: 100%; height: 60px; border-bottom: 1px solid #ccc; display: flex; align-items: center; .gradient(@color-white, @color-grey, 180deg);
   div { align-self: stretch; /*.edge(red);*/ }
   
-  div#dropdown { width: 80px; }
+  #dropdown { width: 80px; border-right: solid 1px @color-black;  .horizon;
+    &:before { display: inline-block; height: 100%; vertical-align: middle; content: ""; }
+    div { display: inline-block;
+      svg { display: block; }
+      //input {  }
+    }
+  }
 
-  div#search { flex: 1; overflow: hidden;  .horizon;
+  #search { flex: 1; overflow: hidden;  .horizon;
     &:before { display: inline-block; height: 100%; vertical-align: middle; content: ""; }
     div { display: inline-block;
       //input {  }
@@ -27,8 +33,8 @@ header { width: 100%; height: 60px; border-bottom: 1px solid #ccc; display: flex
   div#add-anekdot {  width: 80px; text-align: center; line-height: 50px; .gradient(darken(@color-white, 5%), darken(@color-grey, 5%), 180deg);
     a { display: block; .size(100%); text-decoration: none; color: @color-black;
       &:hover{ .gradient(darken(@color-white, 15%), darken(@color-grey, 15%)); }
+      //&:
     }
   }
-  
 }
-
+.dropdown { /*margin: 10px; */ display:block; .center; }
