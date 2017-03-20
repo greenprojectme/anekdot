@@ -12,6 +12,16 @@
 <body>
   <header>
     <div id="dropdown">
+      <div>
+
+        <!--<button type="submit">Поиск</button>-->
+
+        <svg class="dropdown" width="30px" height="30px" xmlns="http://www.w3.org/2000/svg">
+          <rect id="rect1" fill="black" width="30px" height="6px" />
+          <rect id="rect2" fill="black" width="30px" height="6px" y="12px" />
+          <rect id="rect3" fill="black" width="30px" height="6px" y="24px" />
+        </svg>
+      </div>
     </div>
     <div id="search">
       <div>
@@ -23,6 +33,14 @@
       <a href="">Добавить</a>
     </div>
   </header>
+  <main>
+    <form >
+      <!-- method="GET" action="server.php"-->
+      Введите текст анекдота:
+      <input class="anekdot" type="text" name="text" value="колобок повесился">
+      <input type="submit" onclick="AddAnekdot()"/>
+    </form>
+  </main>
 </body>
 
 </html>
