@@ -56,6 +56,19 @@
     }
   }
 
+  class Link {
+  /** Список всех анекдотов с выбранным тегом
+    * @param tag {natural} идентификатор тега
+    */
+    public static function tag($tag) {
+      return Api::select('anekdot', 'link', ['tag' => $tag]);
+    }
+    public static function add($anekdot, $tag) {
+      Api::insert('link', ['anekdot' => $anekdot, 'tag' => $tag]);
+      return Link::tag($tag);
+    }
+  }
+
 /** @section Обработка запросов */
   $response = array();
   $method   = strtolower(_::str('method'));
@@ -68,6 +81,8 @@
     case 'anekdot.upd': $response = Anekdot::upd(_::int('anekdot'), _::str('version'), _::str('name')); break;                // Добавление версии анекдота
     case 'anekdot.num': $response = Anekdot::num(_::int('anekdot'), _::int('number')); break;                                 // Установка номера анекдота
     case 'anekdot.add': $response = Anekdot::add(_::str('caption'), _::int('number'), _::str('text'), _::str('name')); break; // Добавление анекдота
+    case 'link.add': $response = Link::tag(_::num('anekdot'), _::num('anekdot', 'tag')); break;
+    case 'link.tag': $response = Link::tag(_::num('anekdot')); break;
     // @todo
 
   /** @subsection Обработка ошибочного запроса */
