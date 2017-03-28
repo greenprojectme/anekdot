@@ -55,9 +55,9 @@
   /** @section INIT */
   $.ready(function () {
     var add = function AddAnekdot() {
-      var text = $('.anekdot[id="text"]').val();
+      var text = $('input.anekdot[name="text"]').val();
       Anekdot.addAnekdot(text);
-      var tag = $('.anekdot[id="tag"]').val();
+      var tag = $('input.anekdot[name="tag"]').val();
       Anekdot.addTag(tag);
     }
 

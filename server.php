@@ -4,8 +4,8 @@
   require_once($root . '/api/params.php');
 
   $project = 'anekdot';
-  $connect = Api::$home . '/domains/connect.ini';
-  $handler = parse_ini_file($connect, true)/*[$project]*/;
+  $connect = Api::$home . '/connect.ini';
+  $handler = parse_ini_file($connect, true)[$project];
   $DBH     = Api::mysql($handler);
 
   // ...
