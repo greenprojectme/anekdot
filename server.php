@@ -27,7 +27,7 @@
     }
     public static function add($caption, $number, $text, $name = '') {
       $anekdot = Api::insert('anekdot', ['caption' => $caption, 'number' => $number]);
-      $version = Anekdot::upd($anekdot, $text, '');
+      $version = Anekdot::upd($anekdot, $text, $name);
       return Anekdot::all();
     }
     public static function get($id) {
@@ -42,8 +42,8 @@
     public static function tags($anekdot) {
       return Api::select('tag.id, tag.name', 'link, tag', ['link.anekdot' => $anekdot, 'link.hide' => 0, 'tag.hide' => 0], ['link.tag' => 'tag.id']);
     }
-    public static function upd($anekdot, $version, $name) {
-      Api::insert('version', ['anekdot' => $anekdot, 'version' => $version, 'name' => $name]);
+    public static function upd($anekdot, $text, $name) {
+      Api::insert('version', ['anekdot' => $anekdot, 'text' => $text, 'name' => $name]);
       return Anekdot::versions($anekdot);
     }
     public static function num($anekdot, $number) {
