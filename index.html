@@ -7,6 +7,7 @@
   <link rel="stylesheet/less" type="text/css" href="style.less" />
   <script src="/less.js"></script>
   <script src="/use/use.js"></script>
+  <script src="/anekdot/script.js"></script>
 </head>
 
 <body>
@@ -34,12 +35,12 @@
     </div>
   </header>
   <main>
-    <form >
-      <!-- method="GET" action="server.php"-->
-      Введите текст анекдота:
-      <input class="anekdot" type="text" name="text" value="колобок повесился">
-      <input type="submit" onclick="AddAnekdot()"/>
-    </form>
+    <label for="tag">Введите тег анекдота:</label>
+    <input class="anekdot" type="text" id="tag" value="детский"><br>
+    <label for="text">Введите текст анекдота:</label>
+    <input class="anekdot" type="text" id="text" value="колобок повесился"><br>
+    <input class="anekdot" type="submit" />
+
   </main>
 </body>
 
