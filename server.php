@@ -4,8 +4,8 @@
   require_once($root . '/api/params.php');
 
   $project = 'anekdot';
-  $connect = Api::$home . '/connect.ini';
-  $handler = parse_ini_file($connect, true)[$project];
+  $connect = Api::$home . '/domains/connect.ini';
+  $handler = parse_ini_file($connect, true)/*[$project]*/;
   $DBH     = Api::mysql($handler);
 
   // ...
@@ -23,11 +23,11 @@
 /** @section Анекдоты @todo */
   class Anekdot {
     public static function all() {
-      return Api::select('id, number, name', 'anekdot', ['hide' => 0]);
+      return Api::select('id, number, caption', 'anekdot', ['hide' => 0]);
     }
     public static function add($caption, $number, $text, $name = '') {
       $anekdot = Api::insert('anekdot', ['caption' => $caption, 'number' => $number]);
-      $version = Anekdot::upd($anekdot['id'], $text, '');
+      $version = Anekdot::upd($anekdot, $text, '');
       return Anekdot::all();
     }
     public static function get($id) {
