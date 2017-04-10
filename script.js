@@ -63,11 +63,11 @@
 
     // $('.anekdot[type="submit"]').on({ click: add });
 
-    api().ask({method: 'anekdot.all'}).try(function(response) {
-      $('aside').clear();
-      response.map(({caption}) => $('aside').add('p{'+caption+'}'));
-      // for (var i = 0; i < response.length; ++i) $('aside').add('p{'+response[i].caption+'}'));
-    });
+    // api().ask({method: 'anekdot.all'}).try(function(response) {
+    //   $('aside').clear();
+    //   response.map(({caption}) => $('aside').add('p{'+caption+'}'));
+    //   // for (var i = 0; i < response.length; ++i) $('aside').add('p{'+response[i].caption+'}'));
+    // });
 
   });
 
