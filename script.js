@@ -63,9 +63,9 @@
 
     // $('.anekdot[type="submit"]').on({ click: add });
 
-    api().ask({method: 'anekdot.all'}).try(function(response) {
-      $('aside').clear();
-      response.map(({caption}) => $('aside').add('p{'+caption+'}'));
+    api().ask({method: 'tag.all'}).try(function(response) {
+      $('ul.list.aside.tags').clear();
+      response.map(({name}) => $('ul.list.aside.tags').add('li{'+name+'}'));
       // for (var i = 0; i < response.length; ++i) $('aside').add('p{'+response[i].caption+'}'));
     });
 

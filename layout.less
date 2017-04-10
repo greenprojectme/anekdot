@@ -30,5 +30,9 @@ aside { .color(@color-primary); width: @sidebar-width; margin-left: -@sidebar-wi
 footer { position: absolute; bottom: 0; }
 /** @section logo */
 
-
+/** @secton sidebar left */
+ul.list.aside.tags { margin-left: 10%; list-style: none; }
+ul.list.aside.tags li {
+  &:hover { color: blue; .cursor; }
+}
 
