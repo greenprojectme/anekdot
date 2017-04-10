@@ -66,7 +66,11 @@
     api().ask({method: 'tag.all'}).try(function(response) {
       $('ul.list.aside.tags').clear();
       response.map(({name}) => $('ul.list.aside.tags').add('li{'+name+'}'));
-      // for (var i = 0; i < response.length; ++i) $('aside').add('p{'+response[i].caption+'}'));
+    });
+
+    api().ask({method: 'anekdot.all'}).try(function(response) {
+      $('ul.list.aside.anekdots').clear();
+      response.map(({caption}) => $('ul.list.aside.anekdots').add('li{'+caption+'}'));
     });
 
   });
