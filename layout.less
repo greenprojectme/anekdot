@@ -70,3 +70,17 @@ ul.list.aside.tags li, ul.list.aside.anekdots li {
   &:hover { color: blue; .cursor; }
 }
 
+/** @section panel right */
+input#layer-editor-toggle ~ article { .animate(.3s); top: 0; right: 0; width: 100%; position: absolute; }
+input#layer-editor-toggle ~ article form { display: block; overflow: hidden; width: 0; }
+label[for="layer-editor-toggle"] { display: block; text-align: right; padding: 1em; }
+label[for="layer-editor-toggle"] span { .cursor; margin-left: 1em;
+  &:hover { color: blue; }
+}
+label[for="layer-editor-toggle"] span.button { .inline; .color(@color-second, @color-black); .round(5px); padding: 5px 10px; .edge(@color-shadow);
+  &:hover { .edge(@color-second); .color(@color-paper, blue); }
+}
+input#layer-editor-toggle {
+  &:checked ~ article { .color(@color-prime); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow); .size(60vw, 100vh); }
+  &:checked ~ article form { width: auto; }
+}
