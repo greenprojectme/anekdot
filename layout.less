@@ -4,13 +4,23 @@
 @font-default: Tahoma; // Выберите шрифт для проекта
 
 // Цвета
-@color-black:   #000;
-@color-white:   #fff;
-@color-grey:    #ccc;
-@color-primary: #F2FBFF;
-@color-secondary: darken(@color-primary, 10%);
+@color-black : #000;
+@color-white : #fff;
+@color-prime : #F2FBFF;
+@color-second: darken(@color-prime, 10%);
+@color-paper : #fafafa;
+@color-shadow: #ccc;
 
-@sidebar-width: 320px;
+// Размеры
+@height : 100vh;
+@width  : 100vw;
+@sidebar: 320px;
+@aside  : @sidebar / 2;
+@all    : 100%;
+@section: 50%;
+@content: 55%;
+@shadow-blur  : 4px;
+@shadow-offset: 2px;
 
 @import "/api/mixin.less";
 
@@ -18,17 +28,41 @@
 main, section, article, aside, header, footer { display: block; }
 
 /** @section layout */
-main { .size(100vw, 100vh); }
-aside, main, section { position: relative; }
-aside, section { box-shadow: 3px 0 6px @color-grey; height: 100vh; }
-section { width: 50%; margin-left: @sidebar-width; }
-aside { .color(@color-primary); width: @sidebar-width; margin-left: -@sidebar-width; }
-#content, #panel { position: absolute; top: 0; right: 0; height: 100vh; }
-#content { width: 100%; }
-#panel {  width: calc(~"50%" - @sidebar-width); }
 
-footer { position: absolute; bottom: 0; }
+aside, section { .shadow(0, @shadow-offset, @shadow-blur, @color-shadow); }
+aside div.aside.list, aside > footer { display: none; }
+#content > footer, #panel > header { display: none; }
+
+@media @small {
+  aside { float: left; .size(@aside, @height); .shadow(@shadow-offset, 0, @shadow-blur, @color-shadow); }
+  aside div.aside.list, aside > footer { display: block; }
+}
+
+@media @handlet {
+  aside { float: none; }
+  // main { .size(@width, @height); }
+  aside, main, section { position: relative; }
+  aside, section { .shadow(@shadow-offset, 0, @shadow-blur, @color-shadow); }
+  section { .size(@content, @height); margin-left: @sidebar; }
+  aside { width: @sidebar; margin-left: -@sidebar; }
+  #content, #panel { position: absolute; top: 0; right: 0; height: @height; }
+  #content { width: @all; }
+  #panel { width: calc(~"@{all} - @{content} - @{sidebar}"); }
+  #content > footer, #panel > header { display: block; }
+  footer { position: absolute; bottom: 0; }
+}
+
+@media @screen {
+  section { width: @section; }
+  #panel { width: calc(~"@{section} - @{sidebar}"); }
+}
+
 /** @section logo */
+
+/** @section color-scheme */
+body    { .color(@color-paper); }
+section { .color(@color-white); }
+aside   { .color(@color-prime); }
 
 /** @secton sidebar left */
 ul.list.aside.tags, ul.list.aside.anekdots { margin-left: 10%; margin-top: 20px; list-style: none; }
