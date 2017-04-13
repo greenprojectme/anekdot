@@ -31,7 +31,7 @@
       return Anekdot::all();
     }
     public static function get($id) {
-      $anekdot = Api::select('id, number, name', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id]);
+      $anekdot = Api::select('id, number, caption', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id])[0];
       $anekdot['version'] = Anekdot::versions($anekdot['id']);
       $anekdot['tag']     = Anekdot::tags    ($anekdot['id']);
       return $anekdot;
