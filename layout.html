@@ -2,24 +2,29 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>Расслабьтесь :) Анекдоты</title>
   <link rel="stylesheet/less" type="text/css" href="layout.less" />
   <script src="/less.js"></script>
   <script src="/use/use.js"></script>
   <script src="script.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 </head>
   <body>
-    <main>       <!-- panel right -->
-      <section>  <!-- content -->
-        <aside>  <!-- sidebar left -->
+    <main>      <!-- panel right -->
+      <section> <!-- content -->
+        <aside> <!-- sidebar left -->
+
           <!-- left sidebar -->
           <header id="logo">
             <h1>Анекдоты</h1>
           </header>
-          <ul class="aside list tags"></ul>
-          <ul class="aside list anekdots"></ul>
+
+          <div class="aside list">
+            <ul class="aside list tags"></ul>
+            <ul class="aside list anekdots"></ul>
+          </div>
+
           <footer>
             toggle
           </footer>
@@ -45,7 +50,21 @@
       <!-- right panel -->
       <div id="panel">
         <header>
-          menu
+          <input type="checkbox" id="layer-editor-toggle" hidden />
+
+          <article class="layer editor">
+            <label for="layer-editor-toggle">
+              <span>управление</span>
+              <span class="button">добавить</span>
+            </label>
+
+            <form id="editor">
+              <h3>Добавить анекдот</h3>
+              <!-- форма добавления / редактирования анекдота -->
+
+            </form>
+          </article>
+
         </header>
 
         <footer>
