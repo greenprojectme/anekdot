@@ -73,6 +73,13 @@
       response.map(({caption}) => $('ul.list.aside.anekdots').add('li{'+caption+'}'));
     });
 
+    api().ask({method: 'anekdot.get', id: 12}).try(function(response) {
+      $('#anekdot>h2', '#anekdot>div').clear();
+      console.log(response)
+      $('#anekdot>h2').html(response.caption);
+      $('#anekdot>div').html(response.version[0].text);
+    });
+
   });
 
   function api() {
