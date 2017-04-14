@@ -61,8 +61,6 @@
       Anekdot.addTag(tag);
     }
 
-    // $('.anekdot[type="submit"]').on({ click: add });
-
     api().ask({method: 'tag.all'}).try(function(response) {
       $('ul.list.aside.tags').clear();
       response.map(({name}) => $('ul.list.aside.tags').add('li{'+name+'}'));
@@ -70,16 +68,25 @@
 
     api().ask({method: 'anekdot.all'}).try(function(response) {
       $('ul.list.aside.anekdots').clear();
-      response.map(({caption}) => $('ul.list.aside.anekdots').add('li{'+caption+'}'));
+      response.map(({caption, id}) => { 
+        $('ul.list.aside.anekdots').add('li{'+caption+'}');
+        var list = $('ul.list.aside.anekdots').find(['li']);
+        var item = list.q(list.length-1);
+        item.on({ click: function(event) { loadAnekdot(id) } });
+      });
     });
 
-    api().ask({method: 'anekdot.get', id: 12}).try(function(response) {
-      $('#anekdot>h2', '#anekdot>div').clear();
-      console.log(response)
-      $('#anekdot>h2').html(response.caption);
-      $('#anekdot>div').html(response.version[0].text);
-    });
+    loadAnekdot(12);
 
+    function loadAnekdot(ID) {
+      api().ask({method: 'anekdot.get', id: ID}).try(function(response) {
+        $('#anekdot>h2', '#anekdot>div').clear();
+        console.log(response)
+        $('#anekdot>h2').html(response.caption);
+        $('#anekdot>div').html(response.version[0].text);
+      });
+    }
+    
   });
 
   function api() {
