@@ -19,7 +19,6 @@
       * @param list {Object} список всех тегов
       */
     static list(list) {
-      console.log(list);
     }
     /** Добавляет новый тег и загружает список всех тегов @callback Tag.all
       * @return {Boolean}
@@ -39,14 +38,12 @@
 
     static addTag(tag) {
       var callback = function (response) {
-        console.log(response);
       }
       $.ajax({ url: 'server.php', method: 'post' }).ask({ method: 'tag.add', name: tag }).try(callback);
     }
 
     static addAnekdot(text) {
       var callback = function (response) {
-        console.log(response);
       }
       $.ajax({ url: 'server.php', method: 'post' }).ask({ method: 'anekdot.add', caption: '', number: '300', text: text, name: '' }).try(callback);
     }
@@ -81,7 +78,6 @@
     function loadAnekdot(ID) {
       api().ask({method: 'anekdot.get', id: ID}).try(function(response) {
         $('#anekdot>h2', '#anekdot>div').clear();
-        console.log(response)
         $('#anekdot>h2').html(response.caption);
         $('#anekdot>div').html(response.version[0].text);
       });
