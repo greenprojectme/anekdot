@@ -101,7 +101,8 @@
       api().ask({ method: 'anekdot.get', id: ID }).try(function (response) {
         $('#anekdot>h2', '#anekdot>div').clear();
         $('#anekdot>h2').html(response.caption);
-        $('#anekdot>div').html(response.version[0].text);
+        var textArr = response.version[0].text.split('\n');
+        textArr.forEach(string => { $('#anekdot>div').add('p{' + string + '}'); });
       });
     }
 
