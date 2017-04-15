@@ -86,5 +86,9 @@ label[for="layer-editor-toggle"] span.button { .inline; .color(@color-second, @c
 }
 input#layer-editor-toggle {
   &:checked ~ article { .color(@color-prime); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow); .size(60vw, 100vh); }
-  &:checked ~ article form { width: auto; }
+  &:checked ~ article form { width: auto; margin: 20px; }
 }
+div#input-anekdot { width: 75%; }
+div#input-anekdot input[type="text"] { width: 100%; margin-top: 10px; margin-bottom: 10px;}
+div#input-anekdot textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
+div#input-anekdot input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }

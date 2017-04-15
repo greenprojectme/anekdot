@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
   <meta charset="utf-8" />
   <title>Расслабьтесь :) Анекдоты</title>
@@ -10,67 +11,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 </head>
-  <body>
-    <main>      <!-- panel right -->
-      <section> <!-- content -->
-        <aside> <!-- sidebar left -->
 
-          <!-- left sidebar -->
-          <header id="logo">
-            <h1>Анекдоты</h1>
-          </header>
+<body>
+  <main>
+    <!-- panel right -->
+    <section>
+      <!-- content -->
+      <aside>
+        <!-- sidebar left -->
 
-          <div class="aside list">
-            <ul class="aside list tags"></ul>
-            <ul class="aside list anekdots"></ul>
-          </div>
+        <!-- left sidebar -->
+        <header id="logo">
+          <h1>Анекдоты</h1>
+        </header>
 
-          <footer>
-            toggle
-          </footer>
-        </aside>
-
-        <!-- content -->
-        <div id="content">
-          <header id="search">
-            поиск
-          </header>
-
-          <article id="anekdot">
-            <h2></h2>
-            <div></div>
-          </article>
-
-          <footer>
-            Давно сидим, все анекдоты пронумеровали
-          </footer>
+        <div class="aside list">
+          <ul class="aside list tags"></ul>
+          <ul class="aside list anekdots"></ul>
         </div>
-      </section>
 
-      <!-- right panel -->
-      <div id="panel">
-        <header>
-          <input type="checkbox" id="layer-editor-toggle" hidden />
+        <footer>
+          toggle
+        </footer>
+      </aside>
 
-          <article class="layer editor">
-            <label for="layer-editor-toggle">
+      <!-- content -->
+      <div id="content">
+        <header id="search">
+          поиск
+        </header>
+
+        <article id="anekdot">
+          <h2></h2>
+          <div></div>
+        </article>
+
+        <footer>
+          Давно сидим, все анекдоты пронумеровали
+        </footer>
+      </div>
+    </section>
+
+    <!-- right panel -->
+    <div id="panel">
+      <header>
+        <input type="checkbox" id="layer-editor-toggle" hidden />
+
+        <article class="layer editor">
+          <label for="layer-editor-toggle">
               <span>управление</span>
               <span class="button">добавить</span>
             </label>
-
-            <form id="editor">
+          <form id="editor">
+            <div id="input-anekdot">
               <h3>Добавить анекдот</h3>
-              <!-- форма добавления / редактирования анекдота -->
+              <input type="text" name="name" placeholder="Название" /></br>
+              <textarea name="text" id="" cols="30" rows="10" placeholder="текст"></textarea></br>
+              <input type="submit" value="Сохранить" /></br>
+            </div>
+          </form>
+        </article>
 
-            </form>
-          </article>
+      </header>
 
-        </header>
+      <footer>
+        Никакие права не защищены,<br />Расслабьтесь, 2017
+      </footer>
+    </div>
+  </main>
+</body>
 
-        <footer>
-          Никакие права не защищены,<br />Расслабьтесь, 2017
-        </footer>
-      </div>
-    </main>
-  </body>
 </html>
