@@ -94,9 +94,11 @@
         .try(function (response) {
         });
     }
+    /** добавляем событие загрузки следующего анекдота */
+    $('div#next-anekdot>div').on({ click: function (event) { loadNextAnekdot() } })
 
-    loadAnekdot(12);
-
+    loadNextAnekdot();
+    /** загрузка числа по id */
     function loadAnekdot(ID) {
       api().ask({ method: 'anekdot.get', id: ID }).try(function (response) {
         $('#anekdot>h2', '#anekdot>div').clear();
@@ -105,7 +107,17 @@
         textArr.forEach(string => { $('#anekdot>div').add('p{' + string + '}'); });
       });
     }
-
+    /** загрузка случайного анекдота */
+    function loadNextAnekdot() {
+      api().ask({ method: 'anekdot.all' }).try(function (response) {
+        var id = response[getRandomInteger(0, response.length-1)].id;
+        loadAnekdot(id);
+      });
+    }
+    /** генерация случайного целого числа */
+    function getRandomInteger(min, max) {
+      return Math.round(Math.random() * (max - min) + min);
+    }
   });
 
   function api() {
