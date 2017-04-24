@@ -51,20 +51,25 @@
 
   /** @section INIT */
   $.ready(function () {
+    var anekdots;
     var add = function AddAnekdot() {
       var text = $('input.anekdot[name="text"]').val();
       Anekdot.addAnekdot(text);
       var tag = $('input.anekdot[name="tag"]').val();
       Anekdot.addTag(tag);
     }
-
+    /** загружает теги в список тегов */
     api().ask({ method: 'tag.all' }).try(function (response) {
       $('ul.list.aside.tags').clear();
       response.map(({ name }) => $('ul.list.aside.tags').add('li{' + name + '}'));
     });
-
+    /** загружает анекдоты в список анекдотов */
     api().ask({ method: 'anekdot.all' }).try(function (response) {
       $('ul.list.aside.anekdots').clear();
+      anekdots = response.map(e => e.id);
+
+      loadNextAnekdot();
+
       response.map(({ caption, id }) => {
         $('ul.list.aside.anekdots').add('li{' + caption + '}');
         /** @todo выборка только что добавленого li */
@@ -97,8 +102,7 @@
     /** добавляем событие загрузки следующего анекдота */
     $('div#next-anekdot>div').on({ click: function (event) { loadNextAnekdot() } })
 
-    loadNextAnekdot();
-    /** загрузка числа по id */
+    /** загрузка анекдота по id */
     function loadAnekdot(ID) {
       api().ask({ method: 'anekdot.get', id: ID }).try(function (response) {
         $('#anekdot>h2', '#anekdot>div').clear();
@@ -109,14 +113,9 @@
     }
     /** загрузка случайного анекдота */
     function loadNextAnekdot() {
-      api().ask({ method: 'anekdot.all' }).try(function (response) {
-        var id = response[getRandomInteger(0, response.length-1)].id;
+        var length = anekdots.length;
+        var id = anekdots[$.number.rand(0, length)];
         loadAnekdot(id);
-      });
-    }
-    /** генерация случайного целого числа */
-    function getRandomInteger(min, max) {
-      return Math.round(Math.random() * (max - min) + min);
     }
   });
 
