@@ -75,7 +75,7 @@ article#anekdot { width: 50%; .center; }
 article#anekdot h2 { margin-bottom: 40px; }
 
 /** @section panel right */
-input#layer-editor-toggle ~ article { .animate(.3s); top: 0; right: 0; width: 100%; position: absolute; }
+input#layer-editor-toggle ~ article { .animate(.3s); top: 0; right: 0; width: 100%; height: 25%; position: absolute; }
 input#layer-editor-toggle ~ article form { display: block; overflow: hidden; width: 0; }
 label[for="layer-editor-toggle"] { display: block; text-align: right; padding: 1em; }
 label[for="layer-editor-toggle"] span { .cursor; margin-left: 1em;
@@ -92,3 +92,11 @@ div#input-anekdot { width: 75%; }
 div#input-anekdot input[type="text"] { width: 100%; margin-top: 10px; margin-bottom: 10px;}
 div#input-anekdot textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
 div#input-anekdot input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }
+
+div#next-anekdot { height: 100%; text-align: center;
+  &:before { content: ''; display: inline-block; height: 100%; vertical-align: middle; }
+}
+div#next-anekdot div { display: inline-block; vertical-align: middle; padding: 5px;
+  &:hover { cursor: pointer; .color(@color-paper, blue); }
+}
+
