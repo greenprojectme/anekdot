@@ -1,50 +1,87 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Анекдоты</title>
+  <meta charset="utf-8" />
+  <title>Расслабьтесь :) Анекдоты</title>
   <link rel="stylesheet/less" type="text/css" href="style.less" />
   <script src="/less.js"></script>
   <script src="/use/use.js"></script>
   <script src="script.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 </head>
 
 <body>
-  <header>
-    <div id="dropdown">
-      <div>
-
-        <!--<button type="submit">Поиск</button>-->
-
-        <svg class="dropdown" width="30px" height="30px" xmlns="http://www.w3.org/2000/svg">
-          <rect id="rect1" fill="black" width="30px" height="6px" />
-          <rect id="rect2" fill="black" width="30px" height="6px" y="12px" />
-          <rect id="rect3" fill="black" width="30px" height="6px" y="24px" />
-        </svg>
-      </div>
-    </div>
-    <div id="search">
-      <div>
-        <input type="text" placeholder="Поиск...">
-        <button type="submit">Поиск</button>
-      </div>
-    </div>
-    <div id="add-anekdot">
-      <a href="">Добавить</a>
-    </div>
-  </header>
   <main>
-    <aside></aside>
+    <!-- panel right -->
     <section>
-      <article>
-        <h1 id="anekdot-header"></h1>
-        <div id="anekdot-text"></div>
-        <div id="anekdot-tag"></div>
-      </article>
-      <div><button>следующий анекдот</button></div>
+      <!-- content -->
+      <aside>
+        <!-- sidebar left -->
+
+        <!-- left sidebar -->
+        <header id="logo">
+          <h1>Анекдоты</h1>
+        </header>
+
+        <div class="aside list">
+          <ul class="aside list tags"></ul>
+          <ul class="aside list anekdots"></ul>
+        </div>
+
+        <footer>
+          toggle
+        </footer>
+      </aside>
+
+      <!-- content -->
+      <div id="content">
+        <header id="search">
+          поиск
+        </header>
+
+        <article id="anekdot">
+          <h2></h2>
+          <div></div>
+        </article>
+
+        <footer>
+          Давно сидим, все анекдоты пронумеровали
+        </footer>
+      </div>
     </section>
 
+    <!-- right panel -->
+    <div id="panel">
+      <header>
+        <input type="checkbox" id="layer-editor-toggle" hidden />
+
+        <article class="layer editor">
+          <label for="layer-editor-toggle">
+              <span>управление</span>
+              <span class="button">добавить</span>
+            </label>
+          <form id="editor">
+            <div id="input-anekdot">
+              <h3>Добавить анекдот</h3>
+              <input type="text" name="name" placeholder="Название" /></br>
+              <textarea name="text" id="" cols="30" rows="10" placeholder="текст"></textarea></br>
+              <input type="submit" value="Сохранить" /></br>
+            </div>
+          </form>
+        </article>
+
+      </header>
+      <div id="next-anekdot">
+        <div>
+          <div>Следующий анекдот -></div>
+        </div>
+      </div>
+      <footer>
+        Никакие права не защищены,<br />Расслабьтесь, 2017
+      </footer>
+    </div>
   </main>
 </body>
 
