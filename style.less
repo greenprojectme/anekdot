@@ -5,6 +5,8 @@
 
 // Цвета
 @color-black : #000;
+@color-night : #444;
+@color-silver: silver;
 @color-white : #fff;
 @color-prime : #F2FBFF;
 @color-second: darken(@color-prime, 10%);
@@ -58,6 +60,9 @@ aside div.aside.list, aside > footer { display: none; }
 }
 
 /** @section logo */
+#logo h1 { font-size: 48px; text-align: center; padding-top: 36px; font-family: Tahoma; font-weight: normal;
+  &:before { content: 'Расслабьтесь.'; display: block; font-size: 28px; color: @color-night; margin-bottom: -18px; margin-left: 10px; }
+}
 
 /** @section color-scheme */
 body    { .color(@color-paper); }
