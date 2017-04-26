@@ -76,6 +76,7 @@
         var list = $('ul.list.aside.anekdots').find(['li']);
         var item = list.q(list.length - 1);
         item.on({ click: function (event) { loadAnekdot(id) } });
+        item.data({anekdot: id});
       });
     });
 
@@ -109,6 +110,12 @@
         $('#anekdot>h2').html(response.caption);
         var textArr = response.version[0].text.split('\n');
         textArr.forEach(string => { $('#anekdot>div').add('p{' + string + '}'); });
+
+        var active = $('ul.list.aside.anekdots li.active');
+        if (active)
+          active.rmClass('active');
+
+        $('ul.list.aside.anekdots li[data-anekdot="' + ID + '"]').addClass('active');
       });
     }
     /** загрузка случайного анекдота */
