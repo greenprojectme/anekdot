@@ -81,7 +81,7 @@
     });
 
     /** добавляет событие сохранения анекдота */
-    $('form#editor').on({
+    $('form#input-anekdot').on({
       submit: function (e) {
         saveAnekdot(getName(), 100, getText(), getName()); alert("Анекдот добавлен"); return false;
       }
