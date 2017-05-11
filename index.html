@@ -59,17 +59,24 @@
 
         <article class="layer editor">
           <label for="layer-editor-toggle">
-              <span>управление</span>
-              <span class="button">добавить</span>
-            </label>
-          <form id="editor">
-            <div id="input-anekdot">
+            <span>управление</span>
+            <span class="button">добавить</span>
+          </label>
+
+          <div class="form" id="editor">
+            <form id="input-anekdot">
               <h3>Добавить анекдот</h3>
               <input type="text" name="name" placeholder="Название" /></br>
               <textarea name="text" id="" cols="30" rows="10" placeholder="текст"></textarea></br>
               <input type="submit" value="Сохранить" /></br>
-            </div>
-          </form>
+            </form>
+
+            <form class="form" id="input-tag">
+              <h3>Добавить тег</h3>
+              <input type="text" name="name" placeholder="Тег" /></br>
+              <input type="submit" value="Сохранить" /></br>
+            </form>
+          </div>
         </article>
 
       </header>
