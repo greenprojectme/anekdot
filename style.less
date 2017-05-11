@@ -91,13 +91,17 @@ label[for="layer-editor-toggle"] span.button { .inline; .color(@color-second, @c
   &:hover { .edge(@color-second); .color(@color-paper, blue); }
 }
 input#layer-editor-toggle {
-  &:checked ~ article { .color(@color-prime); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow); .size(60vw, 100vh); }
-  &:checked ~ article form { width: auto; margin: 20px; }
+  &:checked ~ article { .color(@color-prime); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow); .size(60vw, 100vh); box-sizing: border-box; }
+  &:checked ~ article form { width: auto; .inline; vertical-align: top; .sizing; margin: 2%; }
 }
-div#input-anekdot { width: 75%; }
-div#input-anekdot input[type="text"] { width: 100%; margin-top: 10px; margin-bottom: 10px;}
-div#input-anekdot textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
-div#input-anekdot input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }
+#editor { font-size: 0; height: 0; }
+#editor form { font-size: 16px; }
+input#layer-editor-toggle:checked ~ article form#input-anekdot { width: 70%; }
+input#layer-editor-toggle:checked ~ article form#input-tag { width: 20%; }
+
+.form input[type="text"] { width: 100%; margin-top: 10px; margin-bottom: 10px; }
+.form textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
+.form input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }
 
 div#next-anekdot { height: 100%; text-align: center;
   &:before { content: ''; display: inline-block; height: 100%; vertical-align: middle; }
