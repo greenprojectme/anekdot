@@ -76,7 +76,7 @@
         var list = $('ul.list.aside.anekdots').find(['li']);
         var item = list.q(list.length - 1);
         item.on({ click: function (event) { loadAnekdot(id) } });
-        item.data({anekdot: id});
+        item.data({ anekdot: id });
       });
     });
 
@@ -86,13 +86,16 @@
         saveAnekdot(getName(), 100, getText(), getName()); alert("Анекдот добавлен"); return false;
       }
     })
+    function getInputText(item) {
+      return $(item)[0].value;
+    }
     /** получает название анекдота из формы */
     function getName() {
-      return $('input[name=name]')[0].value;
+      return getInputText('input[name=name]');
     }
     /** получает текст анекдота из формы */
     function getText() {
-      return $('textarea')[0].value;
+      return getInputText('textarea');
     }
     /** сохраняет анекдот */
     function saveAnekdot(_caption, _number, _text, _name) {
@@ -120,9 +123,22 @@
     }
     /** загрузка случайного анекдота */
     function loadNextAnekdot() {
-        var length = anekdots.length;
-        var id = anekdots[$.number.rand(0, length)];
-        loadAnekdot(id);
+      var length = anekdots.length;
+      var id = anekdots[$.number.rand(0, length)];
+      loadAnekdot(id);
+    }
+
+    /** добавляет событие сохранения тега */
+    $('form#input-tag').on({
+      submit: function (e) {
+        saveTag(getInputText('form#input-tag>input[name=name]')); alert("Тег добавлен"); return false;
+      }
+    })
+    /** сохраняет тег */
+    function saveTag(_name) {
+      api().ask({ method: 'tag.add', name: _name })
+        .try(function (response) {
+        });
     }
   });
 
