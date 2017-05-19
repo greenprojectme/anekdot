@@ -58,27 +58,42 @@
       var tag = $('input.anekdot[name="tag"]').val();
       Anekdot.addTag(tag);
     }
+
+    function fillList(response, container, item) {
+      $(container).clear();
+      response.map(({name}) => $(container).add(item + '{' + name + '}'));
+    }
+    function loadList(method, container, item) {
+      api().ask({method}).try(function(response) {fillList(response, container, item)});
+    }
     /** загружает теги в список тегов */
-    api().ask({method: 'tag.all'}).try(function(response) {
-      $('ul.list.aside.tags').clear();
-      response.map(({name}) => $('ul.list.aside.tags').add('li{' + name + '}'));
-    });
+    function loadTags(container, item) {
+      return loadList('tag.all', container, item)
+    }
+
+    loadTags('ul.list.aside.tags', 'li');
+
+    loadTags('div.tags>ul.list.aside.tags', 'li');
+
     /** загружает анекдоты в список анекдотов */
-    api().ask({method: 'anekdot.all'}).try(function(response) {
-      $('ul.list.aside.anekdots').clear();
-      anekdots = response.map(e => e.id);
+    var loadAnekdots = function() {
+      api().ask({method: 'anekdot.all'}).try(function(response) {
+        $('ul.list.aside.anekdots').clear();
+        anekdots = response.map(e => e.id);
 
-      loadNextAnekdot();
+        loadNextAnekdot();
 
-      response.map(({caption, id}) => {
-        $('ul.list.aside.anekdots').add('li{' + caption + '}');
-        /** @todo выборка только что добавленого li */
-        var list = $('ul.list.aside.anekdots').find(['li']);
-        var item = list.q(list.length - 1);
-        item.on({click: function(event) {loadAnekdot(id)}});
-        item.data({anekdot: id});
+        response.map(({caption, id}) => {
+          $('ul.list.aside.anekdots').add('li{' + caption + '}');
+          /** @todo выборка только что добавленого li */
+          var list = $('ul.list.aside.anekdots').find(['li']);
+          var item = list.q(list.length - 1);
+          item.on({click: function(event) {loadAnekdot(id)}});
+          item.data({anekdot: id});
+        });
       });
-    });
+    }
+    loadAnekdots();
 
     /** добавляет событие сохранения анекдота */
     $('form#input-anekdot').on({
@@ -136,13 +151,16 @@
         var item = 'form#input-tag>input[name=name]';
         item = getInputText(item);
         saveTag(item);
-        alert("Тег добавлен");
         return false;
       }
     })
     /** сохраняет тег */
     function saveTag(_name) {
-      api().ask({method: 'tag.add', name: _name});
+      api().ask({method: 'tag.add', name: _name}).try(function(response) {
+        fillList(response, 'div.tags>ul.list.aside.tags', 'li');
+        fillList(response, 'ul.list.aside.tags', 'li');
+        $('form#input-tag').val('');
+      });
     }
   });
 
