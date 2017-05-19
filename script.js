@@ -24,7 +24,7 @@
       * @return {Boolean}
       */
     static add(name) {
-      //$.ajax('server.php').ask({method: 'tag.add', name}).try(Tag.list);
+      //$.ajax('server.php').ask({method: 'tag.add', name}).then(Tag.list);
     }
   }
 
@@ -39,13 +39,13 @@
     static addTag(tag) {
       var callback = function(response) {
       }
-      $.ajax({url: 'server.php', method: 'post'}).ask({method: 'tag.add', name: tag}).try(callback);
+      $.ajax({url: 'server.php', method: 'post'}).ask({method: 'tag.add', name: tag}).then(callback);
     }
 
     static addAnekdot(text) {
       var callback = function(response) {
       }
-      $.ajax({url: 'server.php', method: 'post'}).ask({method: 'anekdot.add', caption: '', number: '300', text: text, name: ''}).try(callback);
+      $.ajax({url: 'server.php', method: 'post'}).ask({method: 'anekdot.add', caption: '', number: '300', text: text, name: ''}).then(callback);
     }
   }
 
@@ -53,9 +53,9 @@
   $.ready(function() {
     var anekdots;
     var add = function AddAnekdot() {
-      var text = $('input.anekdot[name="text"]').val();
+      var text = $('input.anekdot[name="text"]').value();
       Anekdot.addAnekdot(text);
-      var tag = $('input.anekdot[name="tag"]').val();
+      var tag = $('input.anekdot[name="tag"]').value();
       Anekdot.addTag(tag);
     }
 
@@ -64,7 +64,7 @@
       response.map(({name}) => $(container).add(item + '{' + name + '}'));
     }
     function loadList(method, container, item) {
-      api().ask({method}).try(function(response) {fillList(response, container, item)});
+      api(method).then(function(response) {fillList(response, container, item)});
     }
     /** загружает теги в список тегов */
     function loadTags(container, item) {
@@ -77,19 +77,17 @@
 
     /** загружает анекдоты в список анекдотов */
     var loadAnekdots = function() {
-      api().ask({method: 'anekdot.all'}).try(function(response) {
+      api('anekdot.all').then(function(response) {
         $('ul.list.aside.anekdots').clear();
         anekdots = response.map(e => e.id);
 
         loadNextAnekdot();
 
         response.map(({caption, id}) => {
-          $('ul.list.aside.anekdots').add('li{' + caption + '}');
-          /** @todo выборка только что добавленого li */
-          var list = $('ul.list.aside.anekdots').find(['li']);
-          var item = list.q(list.length - 1);
-          item.on({click: function(event) {loadAnekdot(id)}});
-          item.data({anekdot: id});
+          $('ul.list.aside.anekdots')
+            .add('li{' + caption + '}')
+            .on({click: function(event) {loadAnekdot(id)}})
+            .data({anekdot: id});
         });
       });
     }
@@ -116,26 +114,19 @@
     }
     /** сохраняет анекдот */
     function saveAnekdot(_caption, _number, _text, _name) {
-      api().ask({method: 'anekdot.add', caption: _caption, number: _number, text: _text, name: _name})
-        .try(function(response) {
-        });
+      api('anekdot.add', {caption: _caption, number: _number, text: _text, name: _name});
     }
     /** добавляем событие загрузки следующего анекдота */
     $('div#next-anekdot>div').on({click: function(event) {loadNextAnekdot()}})
 
     /** загрузка анекдота по id */
     function loadAnekdot(ID) {
-      api().ask({method: 'anekdot.get', id: ID}).try(function(response) {
+      api('anekdot.get', {id: ID}).then(function(response) {
         $('#anekdot>h2', '#anekdot>div').clear();
         $('#anekdot>h2').html(response.caption);
         var textArr = response.version[0].text.split('\n');
         textArr.forEach(string => {$('#anekdot>div').add('p{' + string + '}');});
-
-        var active = $('ul.list.aside.anekdots li.active');
-        if (active)
-          active.rmClass('active');
-
-        $('ul.list.aside.anekdots li[data-anekdot="' + ID + '"]').addClass('active');
+        $('ul.list.aside.anekdots li[data-anekdot="' + ID + '"]').onceClass('active');
       });
     }
     /** загрузка случайного анекдота */
@@ -156,19 +147,17 @@
     })
     /** сохраняет тег */
     function saveTag(_name) {
-      api().ask({method: 'tag.add', name: _name}).try(function(response) {
+      api('tag.add', {name: _name}).then(function(response) {
         fillList(response, 'div.tags>ul.list.aside.tags', 'li');
         fillList(response, 'ul.list.aside.tags', 'li');
-        $('form#input-tag').val('');
+        $('form#input-tag').value('');
       });
     }
   });
 
-  function api() {
-    return $.ajax({
-      url: 'server.php',
-      method: 'post'
-    });
+  function api(method, data = {}) {
+    data.method = method;
+    return $.ajax(data, 'server.php', {method: 'post'}).then(response => response.json());
   }
 
 })(window, document);
