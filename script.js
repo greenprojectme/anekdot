@@ -61,7 +61,7 @@
 
     function fillList(response, container, item) {
       $(container).clear();
-      response.map(({name}) => $(container).add(item + '{' + name + '}'));
+      response.map(({name}) => $(container).add(item).text(name));
     }
     function loadList(method, container, item) {
       api(method).then(function(response) {fillList(response, container, item)});
@@ -72,32 +72,33 @@
     }
 
     loadTags('ul.list.aside.tags', 'li');
-
     loadTags('div.tags>ul.list.aside.tags', 'li');
 
     /** загружает анекдоты в список анекдотов */
     var loadAnekdots = function() {
-      api('anekdot.all').then(function(response) {
-        $('ul.list.aside.anekdots').clear();
-        anekdots = response.map(e => e.id);
-
-        loadNextAnekdot();
-
-        response.map(({caption, id}) => {
-          $('ul.list.aside.anekdots')
-            .add('li{' + caption + '}')
-            .on({click: function(event) {loadAnekdot(id)}})
-            .data({anekdot: id});
+      api('anekdot.all')
+        .then(listAnekdot)
+        .then(function(response) {
+          anekdots = response.map(e => e.id);
+          loadNextAnekdot();
         });
-      });
     }
     loadAnekdots();
+
+    function listAnekdot(response) {
+      $('ul.list.aside.anekdots')
+        .clear()
+        .add(response.map(anekdot => 'li{' + anekdot.caption + '}[data-anekdot=' + anekdot.id + ']'))
+          .on({click: function(event) {
+            loadAnekdot(this.data('anekdot'));
+          }});
+      return response;
+    }
 
     /** добавляет событие сохранения анекдота */
     $('form#input-anekdot').on({
       submit: function(e) {
         saveAnekdot(getName(), 100, getText(), getName());
-        alert("Анекдот добавлен");
         return false;
       }
     })
@@ -113,20 +114,21 @@
       return getInputText('textarea');
     }
     /** сохраняет анекдот */
-    function saveAnekdot(_caption, _number, _text, _name) {
-      api('anekdot.add', {caption: _caption, number: _number, text: _text, name: _name});
+    function saveAnekdot(caption, number, text, name) {
+      let anekdot = {caption, number, text, name};
+      api('anekdot.add', anekdot).then(listAnekdot);
     }
     /** добавляем событие загрузки следующего анекдота */
     $('div#next-anekdot>div').on({click: function(event) {loadNextAnekdot()}})
 
     /** загрузка анекдота по id */
-    function loadAnekdot(ID) {
-      api('anekdot.get', {id: ID}).then(function(response) {
+    function loadAnekdot(id) {
+      $('ul.list.aside.anekdots li[data-anekdot="' + id + '"]').onceClass('active');
+      api('anekdot.get', {id}).then(function(response) {
         $('#anekdot>h2', '#anekdot>div').clear();
         $('#anekdot>h2').html(response.caption);
         var textArr = response.version[0].text.split('\n');
         textArr.forEach(string => {$('#anekdot>div').add('p{' + string + '}');});
-        $('ul.list.aside.anekdots li[data-anekdot="' + ID + '"]').onceClass('active');
       });
     }
     /** загрузка случайного анекдота */
@@ -146,8 +148,8 @@
       }
     })
     /** сохраняет тег */
-    function saveTag(_name) {
-      api('tag.add', {name: _name}).then(function(response) {
+    function saveTag(name) {
+      api('tag.add', {name}).then(function(response) {
         fillList(response, 'div.tags>ul.list.aside.tags', 'li');
         fillList(response, 'ul.list.aside.tags', 'li');
         $('form#input-tag').value('');
