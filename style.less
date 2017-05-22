@@ -76,6 +76,11 @@ ul.list.aside.tags li, ul.list.aside.anekdots li {
 }
 ul.list.aside.anekdots li.active { .color(@color-second, @color-black); }
 
+#list-editor-toggle {
+  &:not(:checked) ~ .tags { display: none; }
+  &:checked ~ .anekdots { display: none; }
+ }
+
 /** @section middle */
 article#anekdot { width: 50%; .center; }
 article#anekdot h2 { margin-bottom: 40px; }
