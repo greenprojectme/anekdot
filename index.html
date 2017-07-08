@@ -13,14 +13,11 @@
 </head>
 
 <body>
-  <main>
-    <!-- panel right -->
-    <section>
-      <!-- content -->
-      <aside>
-        <!-- sidebar left -->
+  <input type="checkbox" id="layer-editor-toggle" hidden />
 
-        <!-- left sidebar -->
+  <main> <!-- panel right -->
+    <section> <!-- content -->
+      <aside> <!-- sidebar left -->
         <header id="logo">
           <h1>Анекдоты</h1>
         </header>
@@ -35,8 +32,7 @@
         </footer>
       </aside>
 
-      <!-- content -->
-      <div id="content">
+      <div id="content"> <!-- content -->
         <header id="search">
           поиск
         </header>
@@ -52,39 +48,12 @@
       </div>
     </section>
 
-    <!-- right panel -->
-    <div id="panel">
+    <div id="panel"> <!-- right panel -->
       <header>
-        <input type="checkbox" id="layer-editor-toggle" hidden />
-        <label for="layer-editor-toggle" id="splash"></label>
-        <article class="layer editor">
-          <label for="layer-editor-toggle">
-            <span>управление</span>
-            <span class="button">добавить</span>
-          </label>
-
-          <div class="form" id="editor">
-            <form id="input-anekdot">
-              <h3>Добавить анекдот</h3>
-              <input type="text" name="name" placeholder="Название" /></br>
-              <textarea name="text" id="" cols="30" rows="10" placeholder="текст"></textarea></br>
-              <input type="submit" value="Сохранить" /></br>
-            </form>
-
-            <form class="form" id="input-tag">
-              <h3>Добавить тег</h3>
-              <input type="text" name="name" placeholder="Тег" /></br>
-              <input type="submit" value="Сохранить" /></br>
-              <div class="tags">
-                <ul class="aside list tags "></ul>
-              </div>
-            </form>
-
-
-
-          </div>
-        </article>
-
+        <label for="layer-editor-toggle">
+          <span>управление</span>
+          <span class="button">добавить</span>
+        </label>
       </header>
       <div id="next-anekdot">
         <div>
@@ -96,6 +65,30 @@
       </footer>
     </div>
   </main>
-</body>
 
+  <label for="layer-editor-toggle" id="splash"></label>
+  <article class="layer editor">
+    <header>
+      <label for="layer-editor-toggle">закрыть</label>
+    </header>
+    <div class="form" id="editor">
+      <form id="input-anekdot">
+        <h3>Добавить анекдот</h3>
+        <input type="text" name="name" placeholder="Название" />
+        <textarea name="text" id="" cols="30" rows="10" placeholder="текст"></textarea>
+        <input type="submit" value="Сохранить" />
+      </form>
+
+      <form id="input-tag">
+        <h3>Добавить тег</h3>
+        <input type="text" name="name" placeholder="Тег" />
+        <input type="submit" value="Сохранить" />
+        <div class="tags">
+          <ul class="aside list tags "></ul>
+        </div>
+      </form>
+    </div>
+  </article>
+
+</body>
 </html>
