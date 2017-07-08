@@ -69,7 +69,7 @@ body    { .color(@color-paper); }
 section { .color(@color-white); }
 aside   { .color(@color-prime); }
 
-main {.animate(.3s);}
+main { .animate(.3s); }
 
 /** @secton sidebar left */
 ul.list.aside.tags, ul.list.aside.anekdots { margin-left: 10%; margin-top: 20px; list-style: none; }
@@ -83,7 +83,6 @@ article#anekdot { width: 50%; .center; }
 article#anekdot h2 { margin-bottom: 40px; }
 
 /** @section panel right */
-input#layer-editor-toggle ~ article { .animate(.3s); top: 0; right: 0; width: 0; height: 0; position: fixed; }
 input#layer-editor-toggle ~ article form { display: block; overflow: hidden; width: 0; }
 label[for="layer-editor-toggle"] { display: block; text-align: right; padding: 1em; }
 label[for="layer-editor-toggle"] span { .cursor; margin-left: 1em;
@@ -92,12 +91,8 @@ label[for="layer-editor-toggle"] span { .cursor; margin-left: 1em;
 label[for="layer-editor-toggle"] span.button { .inline; .color(@color-second, @color-black); .round(5px); padding: 5px 10px; .edge(@color-shadow);
   &:hover { .edge(@color-second); .color(@color-paper, blue); }
 }
-#splash { display: none; background: fade(@color-second, 70%); .bind(0,0,0,auto,absolute); width: 100vw; }
 input#layer-editor-toggle {
-  &:checked ~ article { .color(@color-prime); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow); .size(55%, 100%); box-sizing: border-box; }
   &:checked ~ article form { width: auto; .inline; vertical-align: top; .sizing; margin: 2%; }
-  &:checked ~ #splash { display: block; }
-  &:checked ~ main { filter: blur(3px); }
 }
 #editor { font-size: 0; height: 0; }
 #editor form { font-size: 16px; }
@@ -115,3 +110,16 @@ div#next-anekdot div { display: inline-block; vertical-align: middle; padding: 5
   &:hover { cursor: pointer; .color(@color-paper, blue); }
 }
 
+/** @subsection layers */
+article.layer { .animate(.3s); top: 0; right: 0; width: 0; height: 0; position: fixed; .color(@color-prime); box-sizing: border-box; }
+#layer-editor-toggle:checked ~ #layer-editor { .size(55%, 100%); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow);  }
+
+/** @subsection splash */
+#splash { display: none;  background: fade(@color-second, 70%); .bind(0, 0, 0, 0, fixed);
+  & > label { display: none; height: 100%; }
+}
+input.splash { display: none;
+  &:checked ~ #splash { display: block; }
+  &:checked ~ main { filter: blur(3px); }
+}
+#layer-editor-toggle:checked ~ #splash > label[for="layer-editor-toggle"] { display: block; }

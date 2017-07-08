@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <input type="checkbox" id="layer-editor-toggle" hidden />
+  <input type="checkbox" id="layer-editor-toggle" class="splash" hidden />
 
   <main> <!-- panel right -->
     <section> <!-- content -->
@@ -66,10 +66,14 @@
     </div>
   </main>
 
-  <label for="layer-editor-toggle" id="splash"></label>
-  <article class="layer editor">
+  <div id="splash"> <!-- splash -->
+    <label for="layer-editor-toggle"></label>
+  </div>
+
+  <!-- layers -->
+  <article class="layer" id="layer-editor"> <!-- layer-editor -->
     <header>
-      <label for="layer-editor-toggle">закрыть</label>
+      <label for="layer-editor-toggle" class="button">закрыть</label>
     </header>
     <div class="form" id="editor">
       <form id="input-anekdot">
