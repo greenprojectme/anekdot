@@ -90,9 +90,11 @@ label[for="layer-editor-toggle"] span { .cursor; margin-left: 1em;
 label[for="layer-editor-toggle"] span.button { .inline; .color(@color-second, @color-black); .round(5px); padding: 5px 10px; .edge(@color-shadow);
   &:hover { .edge(@color-second); .color(@color-paper, blue); }
 }
+#splash { display: none; background: fade(@color-second, 70%); .bind(0,0,0,auto,absolute); width: 100vw; }
 input#layer-editor-toggle {
   &:checked ~ article { .color(@color-prime); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow); .size(60vw, 100vh); box-sizing: border-box; }
   &:checked ~ article form { width: auto; .inline; vertical-align: top; .sizing; margin: 2%; }
+  &:checked ~ #splash { display: block; }
 }
 #editor { font-size: 0; height: 0; }
 #editor form { font-size: 16px; }
