@@ -9,9 +9,8 @@
     * @this param {type} description
     */
   class Tag {
-    /** @subsection {Tag} @method @static */
-    /** Получить список всех тегов с сервера
-      */
+  /** Получить список всех тегов с сервера
+    */
     static all() {
       return api('tag.all')
         .then(Tag.save);
@@ -24,9 +23,9 @@
       Tag.data = tags;
       return tags;
     }
-    /** Добавляет новый тег и загружает список всех тегов @callback Tag.all
-      * @return {Boolean}
-      */
+  /** Добавляет новый тег и загружает список всех тегов @callback Tag.all
+    * @return {Boolean}
+    */
     static add(name) {
       //$.ajax('server.php').ask({method: 'tag.add', name}).then(Tag.list);
     }
@@ -61,37 +60,18 @@
       Anekdot.data = anekdots;
       return anekdots;
     }
-
-    static addTag(tag) {
-      var callback = function(response) {
-      }
-      $.ajax({url: 'server.php', method: 'post'}).ask({method: 'tag.add', name: tag}).then(callback);
-    }
-
-    static addAnekdot(text) {
-      var callback = function(response) {
-      }
-      $.ajax({url: 'server.php', method: 'post'}).ask({method: 'anekdot.add', caption: '', number: '300', text: text, name: ''}).then(callback);
-    }
   }
 
   /** @section INIT */
   $.ready(function() {
-    var anekdots;
-    function AddAnekdot() {
-      var text = $('input.anekdot[name="text"]').value();
-      Anekdot.addAnekdot(text);
-      var tag = $('input.anekdot[name="tag"]').value();
-      Anekdot.addTag(tag);
-    }
     /** загружает теги в список тегов */
     Tag.all()
       .then(tags);
 
     /** загружает анекдоты в список анекдотов */
     Anekdot.all()
-      .then(Anekdots)
-      .then(response => anekdots = response.map(e => e.id)).then(randomAnekdot);
+      .then(anekdots)
+      .then(randomAnekdot);
 
     /** добавляет событие сохранения анекдота */
     $('form#input-anekdot').on({
@@ -100,22 +80,7 @@
         return false;
       }
     })
-    function getInputText(item) {
-      return $(item)[0].value;
-    }
-    /** получает название анекдота из формы */
-    function getName() {
-      return getInputText('input[name=name]');
-    }
-    /** получает текст анекдота из формы */
-    function getText() {
-      return getInputText('textarea');
-    }
-    /** сохраняет анекдот */
-    function saveAnekdot(caption, number, text, name) {
-      let anekdot = {caption, number, text, name};
-      api('anekdot.add', anekdot).then(listAnekdot);
-    }
+
     /** добавляем событие загрузки следующего анекдота */
     $('div#next-anekdot>div').on({click: randomAnekdot});
 
@@ -128,31 +93,53 @@
         return false;
       }
     })
-    /** сохраняет тег */
-    function saveTag(name) {
-      api('tag.add', {name}).then(function(response) {
-        tags(response);
-        $('form#input-tag').value('');
-      });
-    }
   });
 
-    /** загрузка анекдота по id */
-    function loadAnekdot(id) {
-      $('ul.list.aside.anekdots li[data-anekdot="' + id + '"]').onceClass('active');
-      Anekdot.get(id).then(function(response) {
-        $('#anekdot>h2', '#anekdot>div').clear();
-        $('#anekdot>h2').html(response.title);
-        var textArr = response.version[0].text.split('\n');
-        textArr.forEach(string => {$('#anekdot>div').add('p{' + string + '}');});
-      });
-    }
-    /** загрузка случайного анекдота */
-    function randomAnekdot() {
-      let anekdot = Anekdot.rand();
-      loadAnekdot(anekdot.id);
-      return false;
-    }
+  /** загрузка анекдота по id */
+  function loadAnekdot(id) {
+    $('ul.list.aside.anekdots li[data-anekdot="' + id + '"]').onceClass('active');
+    Anekdot.get(id).then(function(response) {
+      $('#anekdot>h2', '#anekdot>div').clear();
+      $('#anekdot>h2').html(response.title);
+      var textArr = response.version[0].text.split('\n');
+      textArr.forEach(string => {$('#anekdot>div').add('p{' + string + '}');});
+    });
+  }
+  /** загрузка случайного анекдота */
+  function randomAnekdot() {
+    let anekdot = Anekdot.rand();
+    loadAnekdot(anekdot.id);
+    return false;
+  }
+  /** сохраняет тег */
+  function saveTag(name) {
+    api('tag.add', {name}).then(function(response) {
+      tags(response);
+      $('form#input-tag').value('');
+    });
+  }
+  function getInputText(item) {
+    return $(item)[0].value;
+  }
+  /** получает название анекдота из формы */
+  function getName() {
+    return getInputText('input[name=name]');
+  }
+  /** получает текст анекдота из формы */
+  function getText() {
+    return getInputText('textarea');
+  }
+  /** сохраняет анекдот */
+  function saveAnekdot(caption, number, text, name) {
+    let anekdot = {caption, number, text, name};
+    api('anekdot.add', anekdot).then(listAnekdot);
+  }
+  function AddAnekdot() {
+    var text = $('input.anekdot[name="text"]').value();
+    Anekdot.addAnekdot(text);
+    var tag = $('input.anekdot[name="tag"]').value();
+    Anekdot.addTag(tag);
+  }
 
   function api(method, data = {}) {
     data.method = method;
@@ -171,7 +158,7 @@
     list(tags, 'div.tags>ul.list.aside.tags');
     return tags;
   }
-  function Anekdots(anekdots) {
+  function anekdots(anekdots) {
     return list(anekdots, 'ul.list.aside.anekdots', callback);
 
     function callback(item, node) {
