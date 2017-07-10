@@ -1,66 +1,8 @@
 (function(window, document, undefined) {
+/** Сайт с пронумерованными анекдотами
+  *
+  */
   "use strict";
-  /** Сайт с пронумерованными анекдотами
-    *
-    */
-
-  /** @section Tag @class
-    * Список тегов
-    * @this param {type} description
-    */
-  class Tag {
-  /** Получить список всех тегов с сервера
-    */
-    static all() {
-      return api('tag.all')
-        .then(Tag.save);
-    }
-  /** Сохранение списка тегов локально
-    * @param {Array} tags
-    * @return {Array} tags
-    */
-    static save(tags) {
-      Tag.data = tags;
-      return tags;
-    }
-  /** Добавляет новый тег и загружает список всех тегов @callback Tag.all
-    * @return {Boolean}
-    */
-    static add(name) {
-      //$.ajax('server.php').ask({method: 'tag.add', name}).then(Tag.list);
-    }
-  }
-
-  /** @section Anekdot @class
-    * Список анекдотов
-    * @this param {type} description
-    */
-  class Anekdot {
-    /** @subsection {Anekdot} @method @static */
-    // @todo
-
-    static all() {
-      return api('anekdot.all')
-        .then(Anekdot.save);
-        // .then(Anekdot.list);
-    }
-    static get(id) {
-      return api('anekdot.get', {id});
-    }
-    static rand() {
-      let count = Anekdot.data && Anekdot.data.length;
-      let index = $.number.rand(0, count);
-      return Anekdot.data[index];
-    }
-  /** Сохранение списка анекдотов локально
-    * @param {Array} anekdots
-    * @return {Array} anekdots
-    */
-    static save(anekdots) {
-      Anekdot.data = anekdots;
-      return anekdots;
-    }
-  }
 
   /** @section INIT */
   $.ready(function() {
@@ -113,10 +55,9 @@
   }
   /** сохраняет тег */
   function saveTag(name) {
-    api('tag.add', {name}).then(function(response) {
-      tags(response);
-      $('form#input-tag').value('');
-    });
+    Tag.add(name)
+      .then(tags)
+      .then(_ => $('form#input-tag').value(''))
   }
   function getInputText(item) {
     return $(item)[0].value;
@@ -132,19 +73,10 @@
   /** сохраняет анекдот */
   function saveAnekdot(caption, number, text, name) {
     let anekdot = {caption, number, text, name};
-    api('anekdot.add', anekdot).then(listAnekdot);
-  }
-  function AddAnekdot() {
-    var text = $('input.anekdot[name="text"]').value();
-    Anekdot.addAnekdot(text);
-    var tag = $('input.anekdot[name="tag"]').value();
-    Anekdot.addTag(tag);
+    return Anekdot.add(anekdot)
+      .then(anekdots);
   }
 
-  function api(method, data = {}) {
-    data.method = method;
-    return $.ajax(data, 'server.php', {method: 'post'}).then(response => response.json());
-  }
   function list(list, container, callback, tag = 'li') {
     container = $(container).clear();
     list.map((item) => {
