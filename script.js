@@ -16,26 +16,28 @@
       .then(randomAnekdot);
 
     /** добавляет событие сохранения анекдота */
-    $('form#input-anekdot').on({
-      submit: function(e) {
-        saveAnekdot(getName(), 100, getText(), getName());
-        return false;
-      }
-    })
+    $('form#input-anekdot').on({ submit: saveAnekdotEvent })
 
     /** добавляем событие загрузки следующего анекдота */
     $('div#next-anekdot>div').on({click: randomAnekdot});
 
     /** добавляет событие сохранения тега */
-    $('form#input-tag').on({
-      submit: function(e) {
-        var item = 'form#input-tag>input[name=name]';
-        item = getInputText(item);
-        saveTag(item);
-        return false;
-      }
-    })
+    $('form#input-tag').on({submit: saveTagEvent})
   });
+
+/** Событие сохранения анекдота */
+  function saveAnekdotEvent(e) {
+    saveAnekdot(getName(), 100, getText(), getName());
+    return false;
+  }
+
+/** событие сохранения тега */
+  function saveTagEvent(e) {
+    var item = 'form#input-tag>input[name=name]';
+    item = getInputText(item);
+    saveTag(item);
+    return false;
+  }
 
   /** загрузка анекдота по id */
   function loadAnekdot(id) {
