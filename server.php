@@ -8,122 +8,12 @@
   $handler = parse_ini_file($connect, true)[$project];
   $DBH     = Api::mysql($handler);
 
-  // ...
+  require_once('server/tag.php');
+  require_once('server/anekdot.php');
+  require_once('server/version.php');
+  require_once('server/ratio.php');
 
-/** @section Теги */
-  class Tag {
-  /** Список всех тегов
-    * @returns {Array} of Tag
-    */
-    public static function all() { // вернуть список всех тегов
-      return Api::select('*', 'tag', ['hide' => 0]);
-    }
-
-  /** Добавление тега
-    * @param name {string} название добавляемого тега
-    * @returns {Array} tag.all
-    */
-    public static function add($name) { // Добавить новый тег и вернуть список всех
-      $result = Api::insert('tag', ['name' => $name]); // в фон (@todo?)
-      return Tag::all();
-    }
-
-  /** Список всех анекдотов с выбранным тегом
-    * @param tag {natural} идентификатор тега
-    * @returns {Array}
-    */
-    public static function get($tag) {
-      return Api::select('anekdot', 'link', ['tag' => $tag]);
-    }
-
-  /** Добавление тега анекдоту
-    * @param anekdot {natural} идентификатор анекдота
-    * @param tag {natural} идентификатор тега
-    * @returns {Anekdot} anekdot.get
-    */
-    public static function attach($tag, $anekdot) {
-      Api::insert('link', ['anekdot' => $anekdot, 'tag' => $tag]);
-      return Anekdot::get($anekdot);
-    }
-  }
-
-/** @section Анекдоты */
-  class Anekdot {
-  /** Список всех анекдотов
-    * @returns {Array[id, number, caption, anekdot]}
-    */
-    public static function all() {
-      return Api::select('id, number, caption', 'anekdot', ['hide' => 0]);
-    }
-
-  /** Добавление нового анекдота
-    * @param caption {string} название анекдота (@todo - сделать необязательным)
-    * @param number {number?} номер добавляемого анекдота
-    * @param text {string} первая версия текста анекдота
-    * @param name {string} название первой версии текста анекдота
-    * @returns {Array} anekdot.all
-    */
-    public static function add($caption, $number, $text, $name = '') {
-      $anekdot = Api::insert('anekdot', ['caption' => $caption, 'number' => $number]);
-      $version = Anekdot::upd($anekdot, $text, $name);
-      /** @todo проверка успешности добавления */
-      return Anekdot::all();
-    }
-
-  /** Полная информация об анекдоте
-    * @param id {natural} идентификатор анекдота
-    * @returns {Anekdot}
-    */
-    public static function get($id) {
-      $anekdot = Api::select('id, number, caption', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id])[0];
-      $anekdot['version'] = Anekdot::versions($anekdot['id']);
-      $anekdot['tag']     = Anekdot::tags    ($anekdot['id']);
-      return $anekdot;
-    }
-
-  /** Список тегов анекдота
-    * @param anekdot {natural} идентификатор анекдота
-    * @returns {Array} of Tag
-    */
-    public static function tags($anekdot) {
-      return Api::select('tag.id, tag.name', 'link, tag', ['link.anekdot' => $anekdot, 'link.hide' => 0, 'tag.hide' => 0], ['link.tag' => 'tag.id']);
-    }
-
-  /** Список версий текста анекдота
-    * @param anekdot {natural} идентификатор анекдота
-    * @returns {Array} of Tag
-    */
-    public static function versions($anekdot) {
-      return Api::select('name, text', 'version', ['anekdot' => $anekdot, 'hide' => 0]);
-    }
-  }
-
-  class Version {
-  /** Добавление версии текста анекдота
-    * @param anekdot {natural} идентификатор анекдота
-    * @param text {string} текст добавляемой версии
-    * @param name {string?} название добавляемой версии
-    */
-    public static function attach($anekdot, $text, $name) {
-      Api::insert('version', ['anekdot' => $anekdot, 'text' => $text, 'name' => $name]);
-      return Anekdot::versions($anekdot);
-    }
-  }
-
-  class Ratio {
-  /** Добавление анекдоту номера
-    * @param anekdot {natural} идентификатор анекдота
-    * @param number {natural} добавляемый номер
-    * @returns {Anekdot} anekdot.get
-    */
-    public static function attach($anekdot, $number) {
-      // @todo unique
-      Api::update('anekdot', ['number' => $number], $anekdot);
-      return Anekdot::get($anekdot);
-    }
-  }
-
-/** @section Обработка запросов к Api*/
+/** @section Обработка запросов к Api @router */
   $response = array();
   $method   = strtolower(_::str('method'));
 
