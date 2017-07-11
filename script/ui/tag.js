@@ -1,0 +1,3 @@
+class TagUI extends Controller {
+
+}

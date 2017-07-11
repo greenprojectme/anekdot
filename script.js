@@ -6,6 +6,36 @@
 
   /** @section INIT */
   $.ready(function() {
+    let ui = new UI({
+      anekdot: new AnekdotUI({
+        view: {
+          list: 'ul.list.aside.anekdots',
+          name: '#anekdot > h2',
+          text: '#anekdot > div'
+        },
+        form: {
+          add : { // Добавление анекдота
+            form: '#input-anekdot',
+            name: '#input-anekdot > input[name=name]',
+            text: '#input-anekdot > textsrea'
+          },
+          next: '#next-anekdot > div' // "следующий анекдот"
+        }
+      }),
+      tag: new TagUI({
+        view: {
+          list: 'ul.list.aside.tags',
+          edit: 'div.tags > ul.list.aside.tags'
+        },
+        form: {
+          add: {   // Добавление тега
+            form: '#input-tag',
+            name: '#input-tag > input[name=name]'
+          }
+        }
+      })
+    });
+
     /** загружает теги в список тегов */
     Tag.all()
       .then(tags);
@@ -13,17 +43,16 @@
     /** загружает анекдоты в список анекдотов */
     Anekdot.all()
       .then(anekdots)
-      .then(randomAnekdot);
-
-    /** добавляет событие сохранения анекдота */
-    $('form#input-anekdot').on({ submit: saveAnekdotEvent })
+      .then(ui.anekdot.event.rand);
 
     /** добавляем событие загрузки следующего анекдота */
-    $('div#next-anekdot>div').on({click: randomAnekdot});
+    $(ui.anekdot.form.next).on({click: ui.anekdot.event.rand});
+
+    /** добавляет событие сохранения анекдота */
+    $(ui.anekdot.form.add.form).on({ submit: saveAnekdotEvent })
 
     /** добавляет событие сохранения тега */
-    $('form#input-tag').on({submit: saveTagEvent})
-  });
+    $(ui.tag.form.add.form).on({submit: saveTagEvent})
 
 /** Событие сохранения анекдота */
   function saveAnekdotEvent(e) {
@@ -33,67 +62,47 @@
 
 /** событие сохранения тега */
   function saveTagEvent(e) {
-    var item = 'form#input-tag>input[name=name]';
-    item = getInputText(item);
+    let item = getInputText(ui.tag.form.add.name);
     saveTag(item);
     return false;
   }
 
   /** загрузка анекдота по id */
   function loadAnekdot(id) {
-    $('ul.list.aside.anekdots li[data-anekdot="' + id + '"]').onceClass('active');
-    Anekdot.get(id).then(function(response) {
-      $('#anekdot>h2', '#anekdot>div').clear();
-      $('#anekdot>h2').html(response.title);
-      var textArr = response.version[0].text.split('\n');
-      textArr.forEach(string => {$('#anekdot>div').add('p{' + string + '}');});
-    });
-  }
-  /** загрузка случайного анекдота */
-  function randomAnekdot() {
-    let anekdot = Anekdot.rand();
-    loadAnekdot(anekdot.id);
-    return false;
+    return ui.anekdot.get(id);
   }
   /** сохраняет тег */
   function saveTag(name) {
     Tag.add(name)
       .then(tags)
-      .then(_ => $('form#input-tag').value(''))
+      .then(_ => $(ui.tag.form.add.name).value(''))
   }
   function getInputText(item) {
-    return $(item)[0].value;
+    return $(item).val();
   }
   /** получает название анекдота из формы */
   function getName() {
-    return getInputText('input[name=name]');
+    return getInputText(ui.anekdot.form.add.name);
   }
   /** получает текст анекдота из формы */
   function getText() {
-    return getInputText('textarea');
+    return getInputText(ui.anekdot.form.add.text);
   }
-  /** сохраняет анекдот */
+
+/** сохраняет анекдот */
   function saveAnekdot(caption, number, text, name) {
     let anekdot = {caption, number, text, name};
     return Anekdot.add(anekdot)
       .then(anekdots);
   }
 
-  function list(list, container, callback, tag = 'li') {
-    container = $(container).clear();
-    list.map((item) => {
-      let node = container.add(tag).text(item.title);
-      if (callback) callback(item, node);
-    });
-    return list;
-  }
   function tags(tags) {
-    list(tags, 'ul.list.aside.tags');
-    list(tags, 'div.tags>ul.list.aside.tags');
+    UI.list(tags, ui.tag.view.list);
+    UI.list(tags, ui.tag.view.edit);
     return tags;
   }
   function anekdots(anekdots) {
-    return list(anekdots, 'ul.list.aside.anekdots', callback);
+    return UI.list(anekdots, ui.anekdot.view.list, callback);
 
     function callback(item, node) {
       node.data({anekdot: item.id}).on({click});
@@ -104,5 +113,7 @@
       return false;
     }
   }
+
+  });
 
 })(window, document);
