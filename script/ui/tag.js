@@ -1,13 +1,24 @@
 class TagUI extends Controller {
-/** сохраняет тег */
+/** Загрузка списка всех тегов */
+  all() {
+    let self = this;
+    Tag.all()
+      .then(tags => self.list(tags));
+  }
+
+/** Добавление нового тега */
   add(name) {
     let self = this;
     Tag.add(name)
-      .then(self.save)
+      .then(tags => self.list(tags))
       .then(_ => $(self.form.add.name).value(''))
   }
 
-  save(tags) {
+/** Отрисовка списка тегов
+  * @param {array} tags
+  * @return {array} tags
+  */
+  list(tags) {
     let self = this;
     UI.list(tags, self.view.list);
     UI.list(tags, self.view.edit);
@@ -21,10 +32,21 @@ class TagUI extends Controller {
     return {
     /** событие сохранения тега */
       add(e) {
-        let item = getInputText(sekf.form.add.name);
+        let item = UI.value(self.form.add.name);
         self.add(item);
         return false;
       }
     }
+  }
+
+/** @section @override @ui @ready */
+  ready() {
+    let self = this;
+
+    self.all(); // список тегов
+
+    $(self.form.add.form).on({ submit: self.event.add }); // событие сохранения тега
+
+    return this;
   }
 }

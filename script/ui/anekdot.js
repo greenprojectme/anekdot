@@ -1,12 +1,25 @@
 class AnekdotUI extends Controller {
+/** Загрузка списка всех анекдотов */
+  all() {
+    let self = this;
+    return Anekdot.all()
+      .then(anekdots => self.list(anekdots));
+  }
 
+/** Загрузка анекдота по идентификатору
+  * @param {natural} id
+  */
   get(id) {
     let self = this;
     $(self.view.list + ' li[data-anekdot="' + id + '"]').onceClass('active');
-    Anekdot.get(id).then(self.show);
+    Anekdot.get(id).then(anekdot => self.show(anekdot));
   }
 
+/** Отображение анекдота в блоке просмотра @ui
+  * @param {object} anekdot
+  */
   show(anekdot) {
+    let self = this;
     $(self.view.name, self.view.text).clear();
     $(self.view.name).html(anekdot.title);
     let textArr = anekdot.version[0].text.split('\n');
@@ -14,20 +27,26 @@ class AnekdotUI extends Controller {
     textArr.forEach(string => view.add('p').text(string));
   }
 
+/** Загрузка случайного анекдота из списка
+  */
   rand() {
     let anekdot = Anekdot.rand();
     return this.get(anekdot.id);
   }
 
-/** сохраняет анекдот */
+/** Добавление нового анекдота */
   add(caption, number, text, name) {
     let self = this;
     let anekdot = {caption, number, text, name};
     return Anekdot.add(anekdot)
-      .then(self.save);
+      .then(self.list);
   }
 
-  save(anekdots) {
+/** Отрисовка списка анекдотов
+  * @param {array} anekdots
+  * @return {array} anekdots
+  */
+  list(anekdots) {
     let self = this;
     return UI.list(anekdots, self.view.list, callback);
 
@@ -61,5 +80,17 @@ class AnekdotUI extends Controller {
         return false;
       }
     }
+  }
+
+/** @section @override @ui @ready */
+  ready() {
+    let self = this;
+
+    self.all().then(self.event.rand); // список анекдотов
+
+    $(self.form.next)    .on({ click : self.event.rand }); // событие загрузки следующего анекдота
+    $(self.form.add.form).on({ submit: self.event.add  }); // событие сохранения анекдота
+
+    return this;
   }
 }
