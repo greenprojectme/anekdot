@@ -20,7 +20,7 @@ class UI {
   }
 
   static value(input) { // ?
-    return input.val();
+    return $(input).val();
   }
 }
 
