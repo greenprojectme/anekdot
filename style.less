@@ -1,29 +1,6 @@
 @charset "utf-8";
 
-// Шрифт
-@font-default: Tahoma; // Выберите шрифт для проекта
-
-// Цвета
-@color-black : #000;
-@color-night : #444;
-@color-silver: silver;
-@color-white : #fff;
-@color-prime : #F2FBFF;
-@color-second: darken(@color-prime, 10%);
-@color-paper : #fafafa;
-@color-shadow: #ccc;
-
-// Размеры
-@height : 100vh;
-@width  : 100vw;
-@sidebar: 320px;
-@aside  : @sidebar / 2;
-@all    : 100%;
-@section: 50%;
-@content: 55%;
-@shadow-blur  : 4px;
-@shadow-offset: 2px;
-
+@import "style/variables.less";
 @import "/api/mixin.less";
 
 * { .indent; }
@@ -73,7 +50,7 @@ aside   { .color(@color-prime); }
 main { .animate(.3s); }
 
 /** @secton sidebar left */
-ul.list.aside.tags, ul.list.aside.anekdots { margin-left: 10%; margin-top: 20px; list-style: none; }
+ul.list.aside.tags, ul.list.aside.anekdots { margin-top: 20px; list-style: none; }
 ul.list.aside.tags li, ul.list.aside.anekdots li {
   &:hover { color: blue; .cursor; }
 }
@@ -85,13 +62,13 @@ article#anekdot h2 { margin-bottom: 40px; }
 
 /** @section panel right */
 input#layer-editor-toggle ~ article form { display: block; overflow: hidden; width: 0; }
-label[for="layer-editor-toggle"] { display: block; text-align: right; padding: 1em; }
-label[for="layer-editor-toggle"] span { .cursor; margin-left: 1em;
-  &:hover { color: blue; }
-}
-label[for="layer-editor-toggle"] span.button { .inline; .color(@color-second, @color-black); .round(5px); padding: 5px 10px; .edge(@color-shadow);
-  &:hover { .edge(@color-second); .color(@color-paper, blue); }
-}
+// label[for="layer-editor-toggle"] { display: block; text-align: right; padding: 1em; }
+// label[for="layer-editor-toggle"] span { .cursor; margin-left: 1em;
+//   &:hover { color: blue; }
+// }
+// label[for="layer-editor-toggle"] span.button { .inline; .color(@color-second, @color-black); .round(5px); padding: 5px 10px; .edge(@color-shadow);
+//   &:hover { .edge(@color-second); .color(@color-paper, blue); }
+// }
 input#layer-editor-toggle {
   &:checked ~ article form { width: auto; .inline; vertical-align: top; .sizing; margin: 2%; }
 }
@@ -100,20 +77,20 @@ input#layer-editor-toggle {
 input#layer-editor-toggle:checked ~ article form#input-anekdot { width: 70%; }
 input#layer-editor-toggle:checked ~ article form#input-tag { width: 20%; }
 
-.form input[type="text"] { width: 100%; margin-top: 10px; margin-bottom: 10px; }
-.form textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
-.form input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }
+// .form input[type="text"] { width: 100%; margin-top: 10px; margin-bottom: 10px; }
+// .form textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
+// .form input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }
 
 div#next-anekdot { height: 100%; text-align: center;
   &:before { content: ''; display: inline-block; height: 100%; vertical-align: middle; }
 }
-div#next-anekdot div { display: inline-block; vertical-align: middle; padding: 5px;
-  &:hover { cursor: pointer; .color(@color-paper, blue); }
-}
+div#next-anekdot div { display: inline-block; vertical-align: middle; .cursor; }
+
+#panel > header > div.layer-controls { text-align: right; padding: .8em .4em; .sizing; }
 
 /** @subsection layers */
-article.layer { .animate(.3s); top: 0; right: 0; width: 0; height: 0; position: fixed; .color(@color-prime); box-sizing: border-box; }
-#layer-editor-toggle:checked ~ #layer-editor { .size(55%, 100%); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow);  }
+article.layer { .animate(.3s); top: 0; right: 0; width: 0; height: 0; position: fixed; .color(@color-prime); box-sizing: border-box; opacity: 0; }
+#layer-editor-toggle:checked ~ #layer-editor { .size(55%, 100%); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow);  opacity: 1; }
 
 /** @subsection splash */
 #splash { display: none;  background: fade(@color-second, 70%); .bind(0, 0, 0, 0, fixed);
@@ -124,3 +101,5 @@ input.splash { display: none;
   &:checked ~ main { filter: blur(3px); }
 }
 #layer-editor-toggle:checked ~ #splash > label[for="layer-editor-toggle"] { display: block; }
+
+@import "style/control.less";

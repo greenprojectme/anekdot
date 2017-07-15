@@ -1,0 +1,208 @@
+/** @section control - оформление контролов
+  * * button - кнопка
+  *
+  * * accent - действие
+  */
+@color-change-effect: 5%;
+@ripple-effect-size: 120px;
+@padding-size: .6em;
+@ripple-effect-scale-small:  1;
+@ripple-effect-scale-medium: 2;
+@ripple-effect-scale-large:  3;
+@ripple-effect-position-left: 50%;
+@ripple-effect-position-top : 50%;
+@ripple-effect-position-left: 50%;
+@ripple-color-change-effect: 25%;
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+  }
+  20% {
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.control {
+  background: none;
+  .edge;
+  .inline;
+  .sizing;
+  .select;
+  .font(1em);
+  .animate(.3s);
+  position: relative;
+  overflow: hidden;
+  padding: @padding-size (@padding-size * 2);
+  vertical-align: top;
+  .outline;
+}
+
+/** @section элементы */
+  .control.button {
+    text-align: center;
+    &:hover {
+      .cursor;
+    }
+  }
+
+  .control.button.accent {
+    .color(@color-accent, @color-white);
+  }
+  .control.button.fade {
+    background-color: fade(@color-black, 1.5 * @color-change-effect);
+  }
+
+  .control.input { // {element}.control.input > input + label
+    padding: 0;
+    border-bottom: 1px solid @color-accent;
+    & > input,
+    & > textarea {
+      .sizing;
+      .outline;
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: (@padding-size * 2) @padding-size;
+      background: none;
+      .edge;
+      .font(1em);
+      .animate(.2s);
+      &:focus, &:valid {
+        padding: (@padding-size * 2.5) (@padding-size) (@padding-size * 1.5);
+      }
+    }
+    // & > input:placeholder-shown, input:not([value]), input[value=""] {
+    //   .edge(yellow);
+    // }
+    & > label {
+      position: absolute;
+      color: gray;
+      left: @padding-size;
+      pointer-events: none;
+      .animate(.2s);
+      top: @padding-size * 2.5;
+      .font(1em);
+    }
+    // & > input:not(:placeholder-shown) + label, & > input:not([value]) + label, & > input[value=""] + label, & > input:not(:valid) {
+
+    // }
+    & > input:focus + label, & > input:valid + label,
+    & > textarea:focus + label, & > textarea:valid + label {
+      font-size: .8em;
+      color: @color-accent;
+      // padding-left: @padding-size; // @TODO: rem
+      top: @padding-size / 3;
+    }
+
+    & > span:before {
+      content: '';
+      position: absolute;
+      display: block;
+      height: 0;
+      width: 0;
+      left: 50%;
+      bottom: 0;
+      .edge(@color-accent);
+      border-left: none;
+      border-right: none;
+      .animate(.2s);
+    }
+    & > input:focus ~ span:before,
+    & > textarea:focus ~ span:before {
+      left: 0;
+      width: 100%;
+    }
+
+    & > textarea { height: 200px; }
+  }
+
+/** @subsection поведение */
+  .control:not(.input):before {
+    content: '';
+    display: block;
+    .bind(0,0,0,0,absolute);
+    .animate(.3s);
+  }
+  .control:not(.input):hover:before{
+    background: fade(@color-white, 4 * @color-change-effect);
+  }
+  .control.darken:not(.input):hover:before{
+    background: fade(@color-black, 1 * @color-change-effect);
+  }
+
+.control:not(.input):after, .control.input > span.ripple:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: @ripple-effect-position-left;
+  top:  @ripple-effect-position-top;
+  background-color: fade(@color-black, @ripple-color-change-effect);
+  border-radius: 100%;
+  opacity: .6;
+
+  transform: scale(0);
+}
+.control:not(.input).small:after {
+  @ripple-effect-radius: @ripple-effect-size * @ripple-effect-scale-small;
+  width:  @ripple-effect-radius;
+  height: @ripple-effect-radius;
+  margin-left: -@ripple-effect-radius / 2;
+  margin-top:  -@ripple-effect-radius / 2;
+}
+.control:not(.input).medium:after, .control.input > span.ripple:after {
+  @ripple-effect-radius: @ripple-effect-size * @ripple-effect-scale-medium;
+  width:  @ripple-effect-radius;
+  height: @ripple-effect-radius;
+  margin-left: -@ripple-effect-radius / 2;
+  margin-top:  -@ripple-effect-radius / 2;
+}
+.control:not(.input).large:after, .control.input.large > span.ripple:after {
+  @ripple-effect-radius: @ripple-effect-size * @ripple-effect-scale-large;
+  width:  @ripple-effect-radius;
+  height: @ripple-effect-radius;
+  margin-left: -@ripple-effect-radius / 2;
+  margin-top:  -@ripple-effect-radius / 2;
+}
+.control:not(.input).extra:after, .control.input.extra > span.ripple:after {
+  @ripple-effect-radius: @ripple-effect-size * @ripple-effect-scale-large * 2;
+  width:  @ripple-effect-radius;
+  height: @ripple-effect-radius;
+  margin-left: -@ripple-effect-radius / 2;
+  margin-top:  -@ripple-effect-radius / 2;
+}
+
+.control:not(.input):active:after, .control.input > :focus ~ span.ripple:after {
+  animation: ripple 1s ease-out;
+}
+
+/* fixes initial animation run, without user input, on page load.
+ */
+.control:not(.input):after {
+  visibility: hidden;
+}
+
+.control:not(.input):active:after {
+  visibility: visible;
+}
+
+// настройки
+.control.edge {
+  .edge(@color-silver);
+}
+.control.block {
+  display: block;
+}
+.control.width {
+  width: 100%;
+}
+.control.left {
+  text-align: left;
+}
+.control.shadow {
+  .shadow(0, 0, @shadow-blur, @color-shadow);
+}
