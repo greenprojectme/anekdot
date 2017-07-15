@@ -14,8 +14,8 @@
     form: {
       add : { // Добавление анекдота
         form: '#input-anekdot',
-        name: '#input-anekdot > input[name=name]',
-        text: '#input-anekdot > textsrea'
+        name: '#input-anekdot input',
+        text: '#input-anekdot textarea'
       },
       next: '#next-anekdot > div' // "следующий анекдот"
     }
@@ -29,7 +29,7 @@
     form: {
       add: {   // Добавление тега
         form: '#input-tag',
-        name: '#input-tag > input[name=name]'
+        name: '#input-tag input'
       }
     }
   });

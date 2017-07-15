@@ -20,8 +20,8 @@ class TagUI extends Controller {
   */
   list(tags) {
     let self = this;
-    UI.list(tags, self.view.list);
-    UI.list(tags, self.view.edit);
+    UI.list(tags, self.view.list, null, 'li.control.button.large.block.left');
+    UI.list(tags, self.view.edit, null, 'li.control.button.large.block.left');
     return tags;
   }
 

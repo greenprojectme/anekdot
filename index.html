@@ -56,14 +56,14 @@
 
     <div id="panel"> <!-- right panel -->
       <header>
-        <label for="layer-editor-toggle">
-          <span>управление</span>
-          <span class="button">добавить</span>
-        </label>
+        <div class="layer-controls">
+          <button class="control button small">профиль</button>
+          <label for="layer-editor-toggle" class="control button small accent">добавить</label>
+        </div>
       </header>
       <div id="next-anekdot">
         <div>
-          <div>Следующий анекдот →</div>
+          <div class="control button large">Следующий анекдот →</div>
         </div>
       </div>
       <footer>
@@ -79,20 +79,39 @@
   <!-- layers -->
   <article class="layer" id="layer-editor"> <!-- layer-editor -->
     <header>
-      <label for="layer-editor-toggle" class="button">закрыть</label>
+      <label for="layer-editor-toggle" class="control button small accent">закрыть</label>
     </header>
     <div class="form" id="editor">
       <form id="input-anekdot">
         <h3>Добавить анекдот</h3>
-        <input type="text" name="name" placeholder="Название" />
-        <textarea name="text" id="" cols="30" rows="10" placeholder="текст"></textarea>
-        <input type="submit" value="Сохранить" />
+        <!-- <input type="text" name="name" placeholder="Название" class="control block width" /> -->
+
+        <div class="control input block extra" style="margin-bottom: 1em">
+          <input type="text" required />
+          <label>Название анекдота</label>
+          <span class="ripple"></span> <!-- анимации -->
+        </div>
+
+        <div class="control input block extra">
+          <textarea required></textarea>
+          <label>Текст анекдота</label>
+          <span class="ripple"></span> <!-- анимации -->
+        </div>
+
+        <button class="control button small accent">сохранить</button>
       </form>
 
       <form id="input-tag">
         <h3>Добавить тег</h3>
-        <input type="text" name="name" placeholder="Тег" />
-        <input type="submit" value="Сохранить" />
+
+        <!-- <input type="text" name="name" placeholder="Тег" class="control block width" /> -->
+        <div class="control input">
+          <input type="text" required />
+          <label>Название тега</label>
+          <span class="ripple"></span> <!-- анимации -->
+        </div>
+
+        <button class="control button small accent">сохранить</button>
         <div class="tags">
           <ul class="aside list tags "></ul>
         </div>
