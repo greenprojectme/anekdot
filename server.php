@@ -37,7 +37,7 @@
       $response = Anekdot::all();
       break;
     case 'anekdot.add': // Добавление нового анекдота
-      $response = Anekdot::add(_::str('caption'), _::int('number'), _::str('text'), _::str('name'));
+      $response = Anekdot::add(_::str('title'), _::int('number'), _::str('text'), _::str('name'));
       break;
     case 'anekdot.get': // Информация об анекдоте
       $response = Anekdot::get(_::int('id'));
