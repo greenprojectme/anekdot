@@ -24,7 +24,7 @@
     * @returns {Array} tag.all
     */
     public static function add($name) { // Добавить новый тег и вернуть список всех
-      $result = Api::insert('tag', ['name' => $name]); // в фон (@todo?)
+      $result = Api::insert('tag', ['title' => $name]); // в фон (@todo?)
       return Tag::all();
     }
 
@@ -50,22 +50,22 @@
 /** @section Анекдоты */
   class Anekdot {
   /** Список всех анекдотов
-    * @returns {Array[id, number, caption, anekdot]}
+    * @returns {Array[id, number, title, anekdot]}
     */
     public static function all() {
-      return Api::select('id, number, caption', 'anekdot', ['hide' => 0]);
+      return Api::select('id, number, title', 'anekdot', ['hide' => 0]);
     }
 
   /** Добавление нового анекдота
-    * @param caption {string} название анекдота (@todo - сделать необязательным)
+    * @param title {string} название анекдота (@todo - сделать необязательным)
     * @param number {number?} номер добавляемого анекдота
     * @param text {string} первая версия текста анекдота
     * @param name {string} название первой версии текста анекдота
     * @returns {Array} anekdot.all
     */
-    public static function add($caption, $number, $text, $name = '') {
-      $anekdot = Api::insert('anekdot', ['caption' => $caption, 'number' => $number]);
-      $version = Anekdot::upd($anekdot, $text, $name);
+    public static function add($title, $number, $text, $name = '') {
+      $anekdot = Api::insert('anekdot', ['title' => $title, 'number' => $number]);
+      $version = Version::attach($anekdot, $text, $name);
       /** @todo проверка успешности добавления */
       return Anekdot::all();
     }
@@ -75,7 +75,7 @@
     * @returns {Anekdot}
     */
     public static function get($id) {
-      $anekdot = Api::select('id, number, caption', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id])[0];
+      $anekdot = Api::select('id, number, title', 'anekdot', ['anekdot.hide' => 0, 'anekdot.id' => $id])[0];
       $anekdot['version'] = Anekdot::versions($anekdot['id']);
       $anekdot['tag']     = Anekdot::tags    ($anekdot['id']);
       return $anekdot;
@@ -94,7 +94,7 @@
     * @returns {Array} of Tag
     */
     public static function versions($anekdot) {
-      return Api::select('name, text', 'version', ['anekdot' => $anekdot, 'hide' => 0]);
+      return Api::select('title, text', 'version', ['anekdot' => $anekdot, 'hide' => 0]);
     }
   }
 
@@ -105,7 +105,7 @@
     * @param name {string?} название добавляемой версии
     */
     public static function attach($anekdot, $text, $name) {
-      Api::insert('version', ['anekdot' => $anekdot, 'text' => $text, 'name' => $name]);
+      Api::insert('version', ['anekdot' => $anekdot, 'text' => $text, 'title' => $name]);
       return Anekdot::versions($anekdot);
     }
   }
@@ -147,7 +147,7 @@
       $response = Anekdot::all();
       break;
     case 'anekdot.add': // Добавление нового анекдота
-      $response = Anekdot::add(_::str('caption'), _::int('number'), _::str('text'), _::str('name'));
+      $response = Anekdot::add(_::str('title'), _::int('number'), _::str('text'), _::str('name'));
       break;
     case 'anekdot.get': // Информация об анекдоте
       $response = Anekdot::get(_::int('id'));
