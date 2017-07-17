@@ -48,7 +48,7 @@ class AnekdotUI extends Controller {
   */
   list(anekdots) {
     let self = this;
-    return UI.list(anekdots, self.view.list, callback);
+    return UI.list(anekdots, self.view.list, callback, 'li.control.button.large.block.left');
 
     function callback(item, node) {
       node.data({anekdot: item.id}).on({click});

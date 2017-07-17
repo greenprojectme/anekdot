@@ -1,0 +1,17 @@
+@charset "utf-8";
+
+@import "../style/variables.less";
+@import "/api/mixin.less";
+@import "../style/control.less";
+
+@edge-section-color: #444;
+
+
+// h3, h4 {display: none; }
+h3 { .font(1.2em); padding-left: 1.0em; }
+h4 { .font(1.1em); padding-left: 1.2em; }
+
+body { .color(#333, #eee); }
+
+div { .indent(1em);  } // .edge(@edge-section-color);
+button, input, textarea { color: #eee; }
