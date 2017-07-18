@@ -39,5 +39,8 @@
 
 /** @section INIT */
   $.ready(_ => ui.ready());
+  $.ready(function() {
+    UI.notify('Тест','текст').info();
+  });
 
 })(window, document);

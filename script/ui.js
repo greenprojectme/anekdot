@@ -40,6 +40,23 @@ class UI {
   static value(input) { // ?
     return $(input).value();
   }
+
+  static notify(header = '', ...text) {
+    return {
+      info() {
+        show();
+      }
+    }
+
+    function show() {
+      $('#notify > h5').text(header);
+      $('#notify > div').clear().loop(init, text.length, text);
+    }
+
+    function init(index, string) {
+      this.add('p').text(string);
+    }
+  }
 }
 
 class Controller {
