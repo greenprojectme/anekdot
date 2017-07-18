@@ -40,7 +40,12 @@
 /** @section INIT */
   $.ready(_ => ui.ready());
   $.ready(function() {
-    UI.notify('Тест','текст').info();
+    setTimeout(_ => {
+      UI.notify('Тест','текст').info()
+        .then(notify => notify.data('Ошибка!', 'текст ошибки').error())
+        .then(notify => notify.data('Процесс!', 'описание действия').process())
+        .then(notify => notify.data('Успех!', 'Ура-ура').success())
+    }, 1000);
   });
 
 })(window, document);

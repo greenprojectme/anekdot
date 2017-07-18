@@ -42,15 +42,45 @@ class UI {
   }
 
   static notify(header = '', ...text) {
-    return {
-      info() {
-        show();
+    let types = 'info,error,success,process'.split(',');
+
+    let notify = {
+      data(header, ...text) {
+        $('#notify > h5').text(header);
+        $('#notify > div').clear().loop(init, text.length, text);
+        return this;
+      },
+      info(timeout = 5) {
+        return show(timeout);
+      },
+      error(timeout = 5) {
+        return show(timeout, 'error');
+      },
+      success(timeout = 3) {
+        return show(timeout, 'success');
+      },
+      process(timeout = 3) {
+        return show(timeout, 'process');
       }
+    };
+
+    return notify.data(header, ...text);
+
+    function show(timeout = 0, type = 'info') {
+      timeout *= 1e3;
+      $('#notify').addClass('active').removeClass(types).addClass(type);
+      return new Promise(function(resolve, reject) {
+        if (timeout) {
+          setTimeout(_ => {
+            hide();
+            resolve(notify);
+          }, timeout);
+        } else resolve(notify);
+      });
     }
 
-    function show() {
-      $('#notify > h5').text(header);
-      $('#notify > div').clear().loop(init, text.length, text);
+    function hide() {
+      $('#notify').removeClass('active');
     }
 
     function init(index, string) {
