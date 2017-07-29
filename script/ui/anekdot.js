@@ -31,6 +31,7 @@ class AnekdotUI extends Controller {
   */
   rand() {
     let anekdot = Anekdot.rand();
+    if (anekdot === null) return;
     return this.get(anekdot.id);
   }
 
