@@ -17,7 +17,8 @@ class Anekdot {
   * @return {object}
   */
   static rand() {
-    let count = Anekdot.data && Anekdot.data.length;
+    let count = (Anekdot.data || []).length;
+    if (count === 0) return null;
     let index = $.number.rand(0, count);
     return Anekdot.data[index];
   }
