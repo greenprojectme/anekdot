@@ -37,8 +37,11 @@ class UI {
 /** Значение в поле ввода @static @ui
   * @return {string}
   */
-  static value(input) { // ?
-    return $(input).value();
+  static value(input, clear = false) { // ?
+    input = $(input);
+    let value = input.value();
+    if (clear) input.value('');
+    return value;
   }
 }
 
