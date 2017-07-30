@@ -42,7 +42,7 @@ class AnekdotUI extends Controller {
     let self = this;
     let anekdot = {caption, number, text, name};
     return Anekdot.add(anekdot)
-      .then(self.list);
+      .then(data => self.list(data));
   }
 
 /** Отрисовка списка анекдотов
