@@ -15,8 +15,8 @@
     * @returns {Array} anekdot.all
     */
     public static function add($caption, $number, $text, $name = '') {
-      $anekdot = Api::insert('anekdot', ['title' => $caption, 'number' => $number]);
-      $version = Anekdot::upd($anekdot, $text, $name);
+      $anekdot = Api::insert('anekdot', ['title' => $name, 'number' => $number]);
+      $version = Version::attach($anekdot, $text, $name);
       /** @todo проверка успешности добавления */
       return Anekdot::all();
     }
