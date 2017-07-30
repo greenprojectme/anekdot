@@ -21,7 +21,7 @@ class AnekdotUI extends Controller {
   show(anekdot) {
     let self = this;
     $(self.view.name, self.view.text).clear();
-    $(self.view.name).html(anekdot.title);
+    $(self.view.name).text(anekdot.title);
     let textArr = anekdot.version[0].text.split('\n');
     let view = $(self.view.text);
     textArr.forEach(string => view.add('p').text(string));
@@ -30,9 +30,11 @@ class AnekdotUI extends Controller {
 /** Загрузка случайного анекдота из списка
   */
   rand() {
+    let self = this;
     let anekdot = Anekdot.rand();
-    if (anekdot === null) return;
-    return this.get(anekdot.id);
+    return anekdot === null
+      ? self.default()
+      : self.get(anekdot.id);
   }
 
 /** Добавление нового анекдота */
@@ -60,6 +62,15 @@ class AnekdotUI extends Controller {
       self.get(anekdot);
       return false;
     }
+  }
+
+/** Если анекдотов нет */
+  default() {
+    let self = this;
+    $(self.view.name, self.view.text).clear();
+    $(self.view.name).text('Анекдотов пока нет');
+    $(self.view.text).add('label[for=layer-editor-toggle].control.button.large')
+      .html('Добавить первый анекдот');
   }
 
 /** @section События */
