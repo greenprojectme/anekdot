@@ -37,9 +37,10 @@ aside div.aside.list, aside > footer { display: none; }
 }
 
 /** @section logo */
-#logo h1 { font-size: 48px; text-align: center; padding-top: 36px; font-family: Tahoma; font-weight: normal;
+#logo h1 { font-size: 48px; text-align: center; font-family: Tahoma; font-weight: normal;
   &:before { content: 'Расслабьтесь'; display: block; font-size: 28px; color: @color-night; margin-bottom: -18px; }
   &:after { content: '.'; }
+  @media @screen { padding-top: 36px; }
 }
 
 /** @section color-scheme */
@@ -57,9 +58,15 @@ ul.list.aside.tags li, ul.list.aside.anekdots li {
 ul.list.aside.anekdots li.active { .color(@color-second, @color-black); }
 
 /** @section middle */
-#anekdot { width: 70%; .center; }
-#anekdot > h2 { margin: 40px 0; .font(1.6em); text-align: center; }
-#anekdot > div > p { .font; }
+#anekdot { .center; width: 90%;
+  @media @handlet { width: 80%; }
+  @media @screen  { width: 70%; }
+}
+#anekdot > h2 { .font(1.6em); text-align: center;
+  @media @handlet { margin: 40px 0; }
+}
+#anekdot > div { padding: 1em 0; }
+#anekdot > div > p { .font(1em); line-height: 1.5; }
 #anekdot > div > label { display: block; margin: 40px auto; max-width: 260px; }
 
 #content footer { text-align: center; .font(.9em); padding-bottom: 1em; }
@@ -86,7 +93,9 @@ input#layer-editor-toggle:checked ~ article form#input-tag { width: 20%; }
 // .form textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
 // .form input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }
 
-#next-anekdot { margin: 40vh auto 0; width: 260px; display: block; }
+#next-anekdot { margin: 0 auto; width: 260px; display: block;
+  @media @screen { margin-top: 40vh; }
+}
 
 #panel > header > div.layer-controls { text-align: right; padding: .8em .4em; .sizing; }
 #panel > footer { text-align: right; .font(.9em); padding-bottom: 1em; padding-right: 1em; }

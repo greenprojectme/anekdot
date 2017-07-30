@@ -86,8 +86,8 @@ class AnekdotUI extends Controller {
 
     /** Событие сохранения анекдота */
       add(e) {
-        let name = UI.value(self.form.add.name);
-        let text = UI.value(self.form.add.text);
+        let name = UI.value(self.form.add.name, true);
+        let text = UI.value(self.form.add.text, true);
         self.add(name, 100, text, name);
         return false;
       }
