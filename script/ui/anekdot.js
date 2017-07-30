@@ -69,7 +69,7 @@ class AnekdotUI extends Controller {
     let self = this;
     $(self.view.name, self.view.text).clear();
     $(self.view.name).text('Анекдотов пока нет');
-    $(self.view.text).add('label[for=layer-editor-toggle].control.button.large')
+    $(self.view.text).add('label[for=layer-editor-toggle].control.button.large.fade')
       .html('Добавить первый анекдот');
   }
 

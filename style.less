@@ -28,7 +28,7 @@ aside div.aside.list, aside > footer { display: none; }
   #content { width: @all; }
   #panel { width: calc(~"@{all} - @{content} - @{sidebar}"); }
   #content > footer, #panel > header { display: block; }
-  footer { position: absolute; bottom: 0; }
+  footer { position: absolute; bottom: 0; left: 0; right: 0; }
 }
 
 @media @screen {
@@ -57,8 +57,12 @@ ul.list.aside.tags li, ul.list.aside.anekdots li {
 ul.list.aside.anekdots li.active { .color(@color-second, @color-black); }
 
 /** @section middle */
-article#anekdot { width: 50%; .center; }
-article#anekdot h2 { margin-bottom: 40px; }
+#anekdot { width: 50%; .center; }
+#anekdot > h2 { margin: 40px 0; .font(1.6em); text-align: center; }
+#anekdot > div > label { display: block; margin: 40px auto; max-width: 260px; }
+
+#content footer { text-align: center; .font(.9em); padding-bottom: 1em; }
+
 
 /** @section panel right */
 input#layer-editor-toggle ~ article form { display: block; overflow: hidden; width: 0; }
@@ -81,16 +85,16 @@ input#layer-editor-toggle:checked ~ article form#input-tag { width: 20%; }
 // .form textarea { width: 100%; margin-top: 10px; margin-bottom: 10px; resize: none; }
 // .form input[type="submit"] { display:block; margin-right: 0; margin-left: auto; }
 
-div#next-anekdot { height: 100%; text-align: center;
-  &:before { content: ''; display: inline-block; height: 100%; vertical-align: middle; }
-}
-div#next-anekdot div { display: inline-block; vertical-align: middle; .cursor; }
+#next-anekdot { margin: 40vh auto 0; width: 260px; display: block; }
 
 #panel > header > div.layer-controls { text-align: right; padding: .8em .4em; .sizing; }
+#panel > footer { text-align: right; .font(.9em); padding-bottom: 1em; padding-right: 1em; }
 
 /** @subsection layers */
 article.layer { .animate(.3s); top: 0; right: 0; width: 0; height: 0; position: fixed; .color(@color-prime); box-sizing: border-box; opacity: 0; }
 #layer-editor-toggle:checked ~ #layer-editor { .size(55%, 100%); .shadow(-@shadow-offset, 0, @shadow-blur, @color-shadow);  opacity: 1; }
+
+#editor h3 { .font(1.4em); }
 
 /** @subsection splash */
 #splash { display: none;  background: fade(@color-second, 70%); .bind(0, 0, 0, 0, fixed);

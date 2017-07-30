@@ -17,7 +17,7 @@
         name: '#input-anekdot input',
         text: '#input-anekdot textarea'
       },
-      next: '#next-anekdot > div' // "следующий анекдот"
+      next: '#next-anekdot' // "следующий анекдот"
     }
   });
 
