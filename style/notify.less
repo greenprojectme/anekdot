@@ -1,0 +1,54 @@
+/** @section основное */
+  #notify {
+    .font(1em);
+    .animate(.3s);
+    color: @color-black;
+    position: fixed;
+    left: 0;
+    bottom: 1em;
+    height: 4em;
+    width: 0;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: none;
+    opacity: 0;
+    .edge;
+  }
+
+/** @section состояния */
+  #notify.active {
+    .shadow(@shadow-offset, @shadow-offset, @shadow-blur, @color-shadow);
+    width: 320px;
+    left: 1em;
+    padding: 1em;
+    min-height: 4em;
+    height: auto;
+    overflow: auto;
+    opacity: 1;
+  }
+
+/** @section типы уведомлений */
+  #notify.error {
+    background: @color-error;
+    .edge(darken(@color-error, 20%));
+  }
+
+  #notify.info {
+    background: @color-second;
+    .edge(@color-accent);
+  }
+
+  #notify.success {
+    background: @color-success;
+    .edge(darken(@color-success, 20%));
+  }
+
+  #notify.process {
+    background: @color-process;
+    .edge(darken(@color-process, 20%));
+  }
+
+/** @section оформление */
+  #notify > h5 {
+    .font(1em, bold);
+  }
